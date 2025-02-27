@@ -1,2 +1,2 @@
-class snake():
+class Snake():
     pass
