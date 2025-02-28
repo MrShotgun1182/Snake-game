@@ -42,11 +42,7 @@ window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 snake = Snake(BODY_PARTS=BODY_PARTS, canvas=canvas, SPACE_SIZE=SPACE_SIZE, SNAKE_COLOR=SNAKE_COLOR)
 food = Food(GAME_HEIGHT=GAME_HEIGHT, GAME_WIDTH=GAME_WIDTH, SPACE_SIZE=SPACE_SIZE, FOOD_COLOR=FOOD_COLOR, canvas=canvas)
-
-
-
-
-
+next_turn(snake, food, SPACE_SIZE, direction, window, SPEED, canvas, SNAKE_COLOR)
 
 
 window.mainloop()
