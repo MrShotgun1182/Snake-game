@@ -40,6 +40,11 @@ y = int((screen_height/2) - (window_height/2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
+window.bind('<Left>', lambda event: change_direction('Left', direction=direction))
+window.bind('<Down>', lambda event: change_direction('Down', direction=direction))
+window.bind('<Right>', lambda event: change_direction('Right', direction=direction))
+window.bind('<Up>', lambda event: change_direction('Up', direction=direction))
+
 snake = Snake(BODY_PARTS=BODY_PARTS, canvas=canvas, SPACE_SIZE=SPACE_SIZE, SNAKE_COLOR=SNAKE_COLOR)
 food = Food(GAME_HEIGHT=GAME_HEIGHT, GAME_WIDTH=GAME_WIDTH, SPACE_SIZE=SPACE_SIZE, FOOD_COLOR=FOOD_COLOR, canvas=canvas)
 next_turn(snake, food, SPACE_SIZE, direction, window, SPEED, canvas, SNAKE_COLOR)

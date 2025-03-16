@@ -24,8 +24,20 @@ def next_turn(snake, food, SPACE_SIZE, direction, window, SPEED, canvas, SNAKE_C
     window.after(SPEED, next_turn, snake, food, SPACE_SIZE, direction, window, SPEED, canvas, SNAKE_COLOR)
 
 def change_direction(new_direction):
-    pass
-
+    from main import direction
+    if new_direction == "left":
+        if direction != "rigth":
+            direction = new_direction
+    elif new_direction == "rigth":
+        if direction != "left":
+            direction = new_direction
+    elif new_direction == "down":
+        if direction != "up":
+            direction = new_direction
+    elif new_direction == "up":
+        if direction != "down":
+            direction = new_direction
+    
 def check_collisions():
     pass
 

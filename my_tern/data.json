@@ -1,0 +1,11 @@
+{
+    "window": 
+    {
+        "window_width": 800, 
+        "window_height": 600 
+    },
+    "canvas":
+    {
+        "background_color": "#57B4BA"
+    }
+}

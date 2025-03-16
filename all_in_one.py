@@ -20,7 +20,7 @@ class Food:
         self.coordonates = [x, y]
         canvas.create_oval(self.coordonates[0], self.coordonates[1], self.coordonates[0] + SPACE_SIZE, self.coordonates[1] + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
 
-def next_turn(snake, food):
+def next_turn(snake: Snake, food: Food):
     x, y = snake.coordinates[0]
     
     if direction == "up":
@@ -38,10 +38,27 @@ def next_turn(snake, food):
     
     snake.squares.insert(0, square)
         
+    del snake.coordinates[-1]
+    
+    canvas.delete(snake.squares[-1])
+    
+    del snake.squares[-1]
+        
     window.after(SPEED, next_turn, snake, food)
 
-def change_direction(new_direction):
-    pass
+# def change_direction(new_direction):
+#     if new_direction == "left":
+#         if direction != "rigth":
+#             direction = new_direction
+#     elif new_direction == "rigth":
+#         if direction != "left":
+#             direction = new_direction
+#     elif new_direction == "down":
+#         if direction != "up":
+#             direction = new_direction
+#     elif new_direction == "up":
+#         if direction != "down":
+#             direction = new_direction
 
 def check_collisions():
     pass
@@ -53,7 +70,7 @@ def game_over():
 GAME_WIDTH = 700
 GAME_HEIGHT  = 700
 SPEED = 50
-SPACE_SIZE = 50
+SPACE_SIZE = 40
 BODY_PARTS = 3
 SNAKE_COLOR = "#00FF00"
 FOOD_COLOR = "#FF0000"
@@ -64,7 +81,7 @@ window.title('snake game')
 window.resizable(False, False)
 
 score = 0
-direction = 'down'
+direction = "down"
 
 label = Label(window, text="score:{}".format(score), font=('consolas', 40))
 label.pack()
@@ -84,6 +101,8 @@ x = int((screen_width/2) - (window_width/2))
 y = int((screen_height/2) - (window_height/2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+
 
 snake = Snake()
 food = Food()
