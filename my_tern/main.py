@@ -1,6 +1,8 @@
 import tkinter 
 import json
 import os
+from snake_class import Snake
+from food_class import Food
 
 WINDOW_WIDTH: int
 WINDOW_HEIGHT: int
@@ -27,14 +29,14 @@ def window_setup(window: tkinter.Tk):
 
 def main():
     window = tkinter.Tk()
+
     get_data()
     window_setup(window)
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
     canvas.pack()
-
-
+    food = Food(canvas)
+    snake = Snake(canvas)
+    
     window.mainloop()
-
-
 
 main()
