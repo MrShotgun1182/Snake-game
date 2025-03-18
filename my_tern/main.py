@@ -11,9 +11,10 @@ BACKGROUND_COLOR: str
 FOOD_COLOR: str
 SNAKE_COLOR: str
 GAME_SPEED: int
+SNAKE_SIZE: int
 
 def get_data():
-    global WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_COLOR, PIXEL_SIZE, FOOD_COLOR, SNAKE_COLOR, GAME_SPEED
+    global WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_COLOR, PIXEL_SIZE, FOOD_COLOR, SNAKE_COLOR, GAME_SPEED, SNAKE_SIZE
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(current_dir, "data.json")
     with open(data_path, 'r') as f:
@@ -25,6 +26,7 @@ def get_data():
         SNAKE_COLOR = data["snake"]["snake_color"]
         FOOD_COLOR = data["food"]["food_color"]
         GAME_SPEED = 500 - (25 * data["game"]["game_speed"])
+        SNAKE_SIZE = data["snake"]["snake_size"]
         
 def window_setup():
     window.title("Snake Game")
@@ -34,6 +36,15 @@ def window_setup():
     y = int((screenheight/2)-(WINDOW_HEIGHT/2))
     window.geometry(F"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{x}+{y}")
     window.resizable(False, False)
+    
+def eat_food(food: Food, canvas: tkinter.Canvas, coordinates):
+    global SNAKE_SIZE
+    SNAKE_SIZE += 1
+    canvas.delete(food.food_id)
+    del food
+    new_food = Food(canvas)
+    return new_food
+    
     
 def next_tern(snake: Snake, food: Food, canvas: tkinter.Canvas):
     x, y = snake.coordinates[0]
@@ -50,9 +61,17 @@ def next_tern(snake: Snake, food: Food, canvas: tkinter.Canvas):
     square = canvas.create_rectangle(x, y, x+PIXEL_SIZE, y+PIXEL_SIZE, fill=SNAKE_COLOR)
     snake.squares.insert(0, square)
     
-    canvas.delete(snake.squares[-1])
-    del snake.coordinates[-1]
-    del snake.squares[-1]
+    
+    if [x, y] in snake.coordinates[1:]:
+        close_game()
+        return
+    
+    if [x, y] == food.coordinates:
+        food = eat_food(food, canvas, [x, y])
+    else:
+        canvas.delete(snake.squares[-1])
+        del snake.coordinates[-1]
+        del snake.squares[-1]
     
     window.after(GAME_SPEED, next_tern, snake, food, canvas)
     
