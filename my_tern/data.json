@@ -1,23 +1,25 @@
 {
     "game":
     {
+        "game_width": 400, 
+        "game_height": 250,
         "_comment": "The game speed is a number between 1 and 20.",
         "game_speed": 17
     },
     "window": 
     {
-        "window_width": 800, 
-        "window_height": 600 
+        "window_width": 400, 
+        "window_height": 300 
     },
     "canvas":
     {
-        "background_color": "#57B4BA",
+        "background_color": "#5F99AE",
         "pixel_size": 20
     },
     "snake":
     {
-        "snake_size": 10,
-        "snake_color": "#BF3131"
+        "snake_size": 3,
+        "snake_color": "#7D0A0A"
     },
     "food":
     {

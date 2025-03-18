@@ -37,9 +37,11 @@ def window_setup():
     window.geometry(F"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{x}+{y}")
     window.resizable(False, False)
     
-def eat_food(food: Food, canvas: tkinter.Canvas, coordinates):
-    global SNAKE_SIZE
+def eat_food(food: Food, canvas: tkinter.Canvas):
+    global SNAKE_SIZE, score, text_score
     SNAKE_SIZE += 1
+    score += 1
+    canvas.itemconfig(text_score, text=f"Score: {score}")
     canvas.delete(food.food_id)
     del food
     return Food(canvas)
@@ -66,7 +68,7 @@ def next_turn(snake: Snake, food: Food, canvas: tkinter.Canvas):
         return
     
     if [x, y] == food.coordinates:
-        food = eat_food(food, canvas, [x, y])
+        food = eat_food(food, canvas)
     else:
         canvas.delete(snake.squares[-1])
         del snake.coordinates[-1]
@@ -103,13 +105,15 @@ def close_game(event=None):
     del window
     
 def main():
-    global window 
-    global direction
+    global window, direction
+    global score, text_score
+    score = 0
     window = tkinter.Tk()
     get_data()
     window_setup()
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
     canvas.pack()
+    text_score = canvas.create_text(10, 10, anchor="nw", text=f"Score: {score}", font=("Helvetica", 16))
     direction = 'down'
     food = Food(canvas)
     snake = Snake(canvas)
