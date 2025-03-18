@@ -6,6 +6,17 @@
     },
     "canvas":
     {
-        "background_color": "#57B4BA"
+        "background_color": "#57B4BA",
+        "pixel_size": 20
+    },
+    "snake":
+    {
+        "snake_size": 3,
+        "snake_color": "#BF3131"
+    },
+    "food":
+    {
+        "food_color": "#F38C79"
     }
+
 }
