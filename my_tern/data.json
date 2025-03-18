@@ -1,4 +1,9 @@
 {
+    "game":
+    {
+        "_comment": "The game speed is a number between 1 and 20.",
+        "game_speed": 19
+    },
     "window": 
     {
         "window_width": 800, 
@@ -11,7 +16,7 @@
     },
     "snake":
     {
-        "snake_size": 3,
+        "snake_size": 20,
         "snake_color": "#BF3131"
     },
     "food":
