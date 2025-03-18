@@ -1,4 +1,4 @@
-import tkinter
+import tkinter 
 import json
 import os
 from snake_class import Snake
@@ -30,13 +30,12 @@ def get_data():
         SNAKE_SIZE = data["snake"]["snake_size"]
         
 def window_setup():
-    global window
     window.title("Snake Game")
     screenwidth = window.winfo_screenwidth()
     screenheight = window.winfo_screenheight()
     x = int((screenwidth/2)-(WINDOW_WIDTH/2))
     y = int((screenheight/2)-(WINDOW_HEIGHT/2))
-    window.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{x}+{y}")
+    window.geometry(F"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{x}+{y}")
     window.resizable(False, False)
     
 def eat_food(food: Food, canvas: tkinter.Canvas):
@@ -49,7 +48,7 @@ def eat_food(food: Food, canvas: tkinter.Canvas):
     return Food(canvas)
     
     
-def next_turn(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
+def next_turn(snake: Snake, food: Food, canvas: tkinter.Canvas):
     x, y = snake.coordinates[0]
     if direction == "up":
         y -= PIXEL_SIZE
@@ -68,17 +67,15 @@ def next_turn(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
     if [x, y] in snake.coordinates[1:]:
         close_game()
         return
-    elif [x, y] in wall.coordinates:
-        close_game()
-        return
-    elif [x, y] == food.coordinates:
+    
+    if [x, y] == food.coordinates:
         food = eat_food(food, canvas)
     else:
         canvas.delete(snake.squares[-1])
         del snake.coordinates[-1]
         del snake.squares[-1]
     
-    window.after(GAME_SPEED, next_turn, snake, food, wall, canvas)
+    window.after(GAME_SPEED, next_turn, snake, food, canvas)
     
 def move_up(event=None):
     global direction
@@ -112,7 +109,7 @@ def main():
     global window, direction
     global score, text_score
     score = 0
-    window = tkinter.Tk()  # window تعریف شده است
+    window = tkinter.Tk()
     get_data()
     window_setup()
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
@@ -123,7 +120,7 @@ def main():
     snake = Snake(canvas)
     wall = Wall()
     wall.near_wall(canvas)
-    next_turn(snake, food, wall, canvas)
+    next_turn(snake, food, canvas)
     window.bind("<Up>", move_up)
     window.bind("<Down>", move_down)
     window.bind("<Right>", move_right)
