@@ -42,11 +42,10 @@ def eat_food(food: Food, canvas: tkinter.Canvas, coordinates):
     SNAKE_SIZE += 1
     canvas.delete(food.food_id)
     del food
-    new_food = Food(canvas)
-    return new_food
+    return Food(canvas)
     
     
-def next_tern(snake: Snake, food: Food, canvas: tkinter.Canvas):
+def next_turn(snake: Snake, food: Food, canvas: tkinter.Canvas):
     x, y = snake.coordinates[0]
     if direction == "up":
         y -= PIXEL_SIZE
@@ -73,7 +72,7 @@ def next_tern(snake: Snake, food: Food, canvas: tkinter.Canvas):
         del snake.coordinates[-1]
         del snake.squares[-1]
     
-    window.after(GAME_SPEED, next_tern, snake, food, canvas)
+    window.after(GAME_SPEED, next_turn, snake, food, canvas)
     
 def move_up(event=None):
     global direction
@@ -96,7 +95,12 @@ def move_right(event=None):
         direction = 'right'
     
 def close_game(event=None):
-    window.destroy()
+    global window
+    if window.winfo_exists():
+        for widgt in window.winfo_children():
+            widgt.destroy()
+        window.destroy()
+    del window
     
 def main():
     global window 
@@ -109,7 +113,7 @@ def main():
     direction = 'down'
     food = Food(canvas)
     snake = Snake(canvas)
-    next_tern(snake, food, canvas)
+    next_turn(snake, food, canvas)
     window.bind("<Up>", move_up)
     window.bind("<Down>", move_down)
     window.bind("<Right>", move_right)

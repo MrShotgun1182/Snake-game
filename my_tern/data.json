@@ -16,7 +16,7 @@
     },
     "snake":
     {
-        "snake_size": 3,
+        "snake_size": 10,
         "snake_color": "#BF3131"
     },
     "food":

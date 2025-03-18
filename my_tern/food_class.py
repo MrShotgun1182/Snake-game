@@ -15,5 +15,3 @@ class Food:
             y = random.randint(0, int((data["window"]["window_height"]/self.pixel_size))-1) * self.pixel_size
         self.coordinates = [x, y]
         self.food_id = canvas.create_oval(x, y, x+self.pixel_size, y+self.pixel_size, fill=self.food_color)
-            
-        
