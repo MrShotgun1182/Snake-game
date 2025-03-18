@@ -3,6 +3,7 @@ import json
 import os
 from snake_class import Snake
 from food_class import Food
+from wall_class import Wall
 
 WINDOW_WIDTH: int
 WINDOW_HEIGHT: int
@@ -117,6 +118,8 @@ def main():
     direction = 'down'
     food = Food(canvas)
     snake = Snake(canvas)
+    wall = Wall()
+    wall.near_wall(canvas)
     next_turn(snake, food, canvas)
     window.bind("<Up>", move_up)
     window.bind("<Down>", move_down)

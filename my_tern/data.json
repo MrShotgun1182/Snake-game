@@ -24,6 +24,10 @@
     "food":
     {
         "food_color": "#F38C79"
+    },
+    "wall":
+    {
+        "wall_color": "#F38C79"
     }
 
 }
