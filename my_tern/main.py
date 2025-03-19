@@ -34,6 +34,7 @@ def window_setup():
     window.resizable(False, False)
     
 def eat_food(food: Food, canvas: tkinter.Canvas):
+    global score
     score += 1
     canvas.itemconfig(text_score, text=f"Score: {score}")
     canvas.delete(food.food_id)
