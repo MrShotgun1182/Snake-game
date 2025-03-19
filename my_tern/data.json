@@ -4,7 +4,7 @@
         "game_width": 400, 
         "game_height": 250,
         "_comment": "The game speed is a number between 1 and 20.",
-        "game_speed": 14
+        "game_speed": 17
     },
     "window": 
     {
@@ -14,7 +14,7 @@
     "canvas":
     {
         "background_color": "#5F99AE",
-        "pixel_size": 30
+        "pixel_size": 20
     },
     "snake":
     {

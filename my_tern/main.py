@@ -9,8 +9,8 @@ WINDOW_WIDTH: int
 WINDOW_HEIGHT: int
 PIXEL_SIZE: int
 BACKGROUND_COLOR: str
-SNAKE_COLOR: str
 GAME_SPEED: int
+KEY_QUEUE = []
 
 def get_data():
     global WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_COLOR, PIXEL_SIZE, GAME_SPEED
@@ -41,16 +41,25 @@ def eat_food(food: Food, canvas: tkinter.Canvas):
     del food
     return Food(canvas)
     
-    
 def next_turn(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
+    global direction, KEY_QUEUE
+
+    if KEY_QUEUE:
+        next_direction = KEY_QUEUE.pop(0) 
+        if (next_direction == "Right" and direction != "Left") or \
+           (next_direction == "Left" and direction != "Right") or \
+           (next_direction == "Up" and direction != "Down") or \
+           (next_direction == "Down" and direction != "Up"):
+            direction = next_direction
+
     x, y = snake.coordinates[0]
-    if direction == "up":
+    if direction == "Up":
         y -= PIXEL_SIZE
-    elif direction == "down":
+    elif direction == "Down":
         y += PIXEL_SIZE
-    elif direction == "right":
+    elif direction == "Right":
         x += PIXEL_SIZE
-    elif direction == "left":
+    elif direction == "Left":
         x -= PIXEL_SIZE
 
     snake.coordinates.insert(0, [x, y])
@@ -60,7 +69,7 @@ def next_turn(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
     if [x, y] in snake.coordinates[1:]:
         close_game()
         return
-    elif [x,y] in wall.coordinates:
+    elif [x, y] in wall.coordinates:
         close_game()
         return
     elif [x, y] == food.coordinates:
@@ -72,25 +81,11 @@ def next_turn(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
     
     window.after(GAME_SPEED, next_turn, snake, food, wall, canvas)
     
-def move_up(event=None):
-    global direction
-    if direction != 'down':
-        direction = 'up'
-
-def move_down(event=None):
-    global direction
-    if direction != 'up':
-        direction = 'down'
-
-def move_left(event=None):
-    global direction
-    if direction != 'right':
-        direction = 'left'
-
-def move_right(event=None):
-    global direction
-    if direction != 'left':
-        direction = 'right'
+def press_key(event=None):
+    global KEY_QUEUE
+    # اضافه کردن کلید به صف اگر از قبل وجود نداشته باشد
+    if event.keysym in ["Right", "Left", "Up", "Down"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
+        KEY_QUEUE.append(event.keysym)
     
 def close_game(event=None):
     global window
@@ -110,16 +105,16 @@ def main():
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
     canvas.pack()
     text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {score}", font=("Helvetica", 16))
-    direction = 'down'
+    direction = 'Down'
     food = Food(canvas)
     snake = Snake(canvas)
     wall = Wall()
     wall.near_wall(canvas)
-    next_turn(snake, food,wall, canvas)
-    window.bind("<Up>", move_up)
-    window.bind("<Down>", move_down)
-    window.bind("<Right>", move_right)
-    window.bind("<Left>", move_left)
+    next_turn(snake, food, wall, canvas)
+    window.bind("<Up>", press_key)
+    window.bind("<Down>", press_key)
+    window.bind("<Right>", press_key)
+    window.bind("<Left>", press_key)
     window.bind("<Escape>", close_game)
     window.mainloop()
 

@@ -20,7 +20,7 @@ class Wall:
         y = int(self.window_height-self.pixel_size)
         for i in range(0, int(self.window_width/self.pixel_size)):
             self.coordinates.append([x, 0])
-            square = canvas.create_rectangle(x, 0, x+self.pixel_size, self.pixel_size, fill=self.wall_color)
+            square = canvas.create_rectangle(x, 0, x+self.pixel_size, self.pixel_size, fill=self.wall_color, )
             self.squares.append(square)
             self.coordinates.append([x, y])
             square = canvas.create_rectangle(x, y, x+self.pixel_size, y+self.pixel_size, fill=self.wall_color)
