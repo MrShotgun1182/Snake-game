@@ -9,13 +9,11 @@ WINDOW_WIDTH: int
 WINDOW_HEIGHT: int
 PIXEL_SIZE: int
 BACKGROUND_COLOR: str
-FOOD_COLOR: str
 SNAKE_COLOR: str
 GAME_SPEED: int
-SNAKE_SIZE: int
 
 def get_data():
-    global WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_COLOR, PIXEL_SIZE, FOOD_COLOR, SNAKE_COLOR, GAME_SPEED, SNAKE_SIZE
+    global WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_COLOR, PIXEL_SIZE, GAME_SPEED
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(current_dir, "data.json")
     with open(data_path, 'r') as f:
@@ -24,10 +22,7 @@ def get_data():
         WINDOW_HEIGHT = data["window"]["window_height"]
         BACKGROUND_COLOR = data["canvas"]["background_color"]
         PIXEL_SIZE = data["canvas"]["pixel_size"]
-        SNAKE_COLOR = data["snake"]["snake_color"]
-        FOOD_COLOR = data["food"]["food_color"]
         GAME_SPEED = 500 - (25 * data["game"]["game_speed"])
-        SNAKE_SIZE = data["snake"]["snake_size"]
         
 def window_setup():
     window.title("Snake Game")
@@ -39,8 +34,6 @@ def window_setup():
     window.resizable(False, False)
     
 def eat_food(food: Food, canvas: tkinter.Canvas):
-    global SNAKE_SIZE, score, text_score
-    SNAKE_SIZE += 1
     score += 1
     canvas.itemconfig(text_score, text=f"Score: {score}")
     canvas.delete(food.food_id)
@@ -60,9 +53,8 @@ def next_turn(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
         x -= PIXEL_SIZE
 
     snake.coordinates.insert(0, [x, y])
-    square = canvas.create_rectangle(x, y, x+PIXEL_SIZE, y+PIXEL_SIZE, fill=SNAKE_COLOR)
+    square = canvas.create_rectangle(x, y, x+PIXEL_SIZE, y+PIXEL_SIZE, fill=snake.snake_color)
     snake.squares.insert(0, square)
-    
     
     if [x, y] in snake.coordinates[1:]:
         close_game()
