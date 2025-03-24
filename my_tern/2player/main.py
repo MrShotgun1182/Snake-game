@@ -44,23 +44,23 @@ def eat_food(food: Food, canvas: tkinter.Canvas):
     return Food(canvas)
     
 def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
-    global direction, KEY_QUEUE, KEY_QUEUE2
+    global KEY_QUEUE, KEY_QUEUE2
 
     if KEY_QUEUE:
         next_direction = KEY_QUEUE.pop(0) 
-        if (next_direction == "Right" and direction != "Left") or \
-           (next_direction == "Left" and direction != "Right") or \
-           (next_direction == "Up" and direction != "Down") or \
-           (next_direction == "Down" and direction != "Up"):
-            direction = next_direction
+        if (next_direction == "Right" and snake.snake_direction != "Left") or \
+           (next_direction == "Left" and snake.snake_direction != "Right") or \
+           (next_direction == "Up" and snake.snake_direction != "Down") or \
+           (next_direction == "Down" and snake.snake_direction != "Up"):
+            snake.snake_direction = next_direction
 
     if KEY_QUEUE2:
-        next_direction = KEY_QUEUE.pop(0) 
-        if (next_direction == "d" and direction != "a") or \
-           (next_direction == "a" and direction != "d") or \
-           (next_direction == "w" and direction != "s") or \
-           (next_direction == "s" and direction != "w"):
-            direction = next_direction
+        next_direction = KEY_QUEUE2.pop(0) 
+        if (next_direction == "d" and snake2.snake_direction != "a") or \
+           (next_direction == "a" and snake2.snake_direction != "d") or \
+           (next_direction == "w" and snake2.snake_direction != "s") or \
+           (next_direction == "s" and snake2.snake_direction != "w"):
+            snake2.snake_direction = next_direction
 
     x, y = snake.coordinates[0]
     if snake.snake_direction == "Up":
@@ -72,22 +72,22 @@ def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinte
     elif snake.snake_direction == "Left":
         x -= PIXEL_SIZE
         
-    x, y = snake2.coordinates[0]
-    if snake.snake_direction == "w":
-        y -= PIXEL_SIZE
-    elif snake.snake_direction == "s":
-        y += PIXEL_SIZE
-    elif snake.snake_direction == "d":
-        x += PIXEL_SIZE
-    elif snake.snake_direction == "a":
-        x -= PIXEL_SIZE
+    a, b = snake2.coordinates[0]
+    if snake2.snake_direction == "w":
+        b -= PIXEL_SIZE
+    elif snake2.snake_direction == "s":
+        b += PIXEL_SIZE
+    elif snake2.snake_direction == "d":
+        a += PIXEL_SIZE
+    elif snake2.snake_direction == "a":
+        a -= PIXEL_SIZE
 
     snake.coordinates.insert(0, [x, y])
     square = canvas.create_rectangle(x, y, x+PIXEL_SIZE, y+PIXEL_SIZE, fill=snake.snake_color)
     snake.squares.insert(0, square)
     
-    snake2.coordinates.insert(0, [x, y])
-    square = canvas.create_rectangle(x, y, x+PIXEL_SIZE, y+PIXEL_SIZE, fill=snake2.snake_color)
+    snake2.coordinates.insert(0, [a, b])
+    square = canvas.create_rectangle(a, b, a+PIXEL_SIZE, b+PIXEL_SIZE, fill=snake2.snake_color)
     snake2.squares.insert(0, square)
     
     if [x, y] in snake.coordinates[1:]:
@@ -96,8 +96,24 @@ def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinte
     elif [x, y] in wall.coordinates:
         close_game()
         return
+    elif [a, b] in snake2.coordinates[1:]:
+        close_game()
+        return
+    elif [a,b] in wall.coordinates:
+        close_game()
+        return
     elif [x, y] == food.coordinates:
         food = eat_food(food, canvas)
+        
+        canvas.delete(snake2.squares[-1])
+        del snake2.coordinates[-1]
+        del snake2.squares[-1]
+    elif [a, b] == food.coordinates:
+        food = eat_food(food, canvas)
+
+        canvas.delete(snake.squares[-1])
+        del snake.coordinates[-1]
+        del snake.squares[-1]
     else:
         canvas.delete(snake.squares[-1])
         del snake.coordinates[-1]
@@ -119,32 +135,35 @@ def press_key(event=None):
 def close_game(event=None):
     global window
     if window.winfo_exists():
-        for widgt in window.winfo_children():
-            widgt.destroy()
+        for widget in window.winfo_children():
+            widget.destroy()
         window.destroy()
-    del window
     
 def main():
-    global window, direction
+    global window
     global score, text_score
     score = 0
+
     window = tkinter.Tk()
-    if not window:
-        raise Exception("window not creat!!!")
+    
     get_data()
     window_setup()
+    
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
     canvas.pack()
+    
     text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {score}", font=("Helvetica", 16))
+    
     food = Food(canvas)
-    snake = Snake(canvas, [1,1])
-    snake2 = Snake(canvas, [WINDOW_WIDTH/PIXEL_SIZE-1, 1])
+    snake = Snake(canvas, 1)
+    snake2 = Snake(canvas, 2)
     wall = Wall()
     wall.near_wall(canvas)
-    next_turn(snake, snake2, food, wall, canvas)
     
     for key in ["<Up>", "<Down>", "<Right>", "<Left>", "w", "a", "s", "d"]:
         window.bind(key, press_key)
+
+    next_turn(snake, snake2, food, wall, canvas)
 
     window.mainloop()
 
