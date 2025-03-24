@@ -87,8 +87,8 @@ def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinte
     snake.squares.insert(0, square)
     
     snake2.coordinates.insert(0, [a, b])
-    square = canvas.create_rectangle(a, b, a+PIXEL_SIZE, b+PIXEL_SIZE, fill=snake2.snake_color)
-    snake2.squares.insert(0, square)
+    square2 = canvas.create_rectangle(a, b, a+PIXEL_SIZE, b+PIXEL_SIZE, fill=snake2.snake_color)
+    snake2.squares.insert(0, square2)
     
     if [x, y] in snake.coordinates[1:]:
         close_game()
