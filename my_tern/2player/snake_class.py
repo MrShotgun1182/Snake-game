@@ -4,6 +4,7 @@ import os
 
 class Snake:
     def __init__(self, canvas: tkinter.Canvas, snake_number, position):
+        self.snake_score = 0
         self.snake_position = position
         self.squares = list()
         self.coordinates = list()

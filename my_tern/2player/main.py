@@ -35,10 +35,14 @@ def window_setup():
     window.geometry(F"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{x}+{y}")
     window.resizable(False, False)
     
-def eat_food(food: Food, canvas: tkinter.Canvas):
-    global score
-    score += 1
-    canvas.itemconfig(text_score, text=f"Score: {score}")
+def eat_food(food: Food, snake: Snake, canvas: tkinter.Canvas, snake_number):
+    if snake_number == 1:
+        snake.snake_score += 1
+        canvas.itemconfig(text_score, text=f"Score: {snake.snake_score}")
+    else:
+        snake.snake_score += 1
+        canvas.itemconfig(text_score2, text=F"Score: {snake.snake_score}")
+    
     canvas.delete(food.food_id)
     del food
     return Food(canvas)
@@ -51,10 +55,10 @@ def delete_tail(snake: Snake, canvas: tkinter.Canvas):
 def food_collision(snake: Snake, snake2: Snake, food: Food, canvas: tkinter.Canvas):
     if snake.coordinates[0] == food.coordinates:
         delete_tail(snake2, canvas)
-        return eat_food(food, canvas), True
+        return eat_food(food, snake, canvas, 1), True
     elif snake2.coordinates[0] == food.coordinates:
         delete_tail(snake, canvas)
-        return eat_food(food, canvas), True
+        return eat_food(food, snake2, canvas, 2), True
     return food, False
     
 
@@ -148,8 +152,7 @@ def close_game(event=None):
     
 def main():
     global window
-    global score, text_score
-    score = 0
+    global text_score, text_score2
 
     window = tkinter.Tk()
     
@@ -159,7 +162,8 @@ def main():
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
     canvas.pack()
     
-    text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {score}", font=("Helvetica", 16))
+    text_score = canvas.create_text(WINDOW_WIDTH - (PIXEL_SIZE*5), PIXEL_SIZE, anchor="nw", text=f"Score: {0}", font=("Helvetica", 16), )
+    text_score2 = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {0}", font=("Helvetica", 16))
     
     food = Food(canvas)
     snake = Snake(canvas, 1, [(WINDOW_WIDTH/PIXEL_SIZE)-2, 1])
@@ -169,6 +173,8 @@ def main():
     
     for key in ["<Up>", "<Down>", "<Right>", "<Left>", "w", "a", "s", "d"]:
         window.bind(key, press_key)
+
+    window.bind("<Escape>", close_game)
 
     next_turn(snake, snake2, food, wall, canvas)
 
