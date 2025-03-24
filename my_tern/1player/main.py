@@ -1,6 +1,7 @@
 import tkinter 
 import json
 import os
+import random
 from snake_class import Snake
 from food_class import Food
 from wall_class import Wall
@@ -83,7 +84,6 @@ def next_turn(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
     
 def press_key(event=None):
     global KEY_QUEUE
-    # اضافه کردن کلید به صف اگر از قبل وجود نداشته باشد
     if event.keysym in ["Right", "Left", "Up", "Down"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
         KEY_QUEUE.append(event.keysym)
     
@@ -111,11 +111,8 @@ def main():
     wall = Wall()
     wall.near_wall(canvas)
     next_turn(snake, food, wall, canvas)
-    window.bind("<Up>", press_key)
-    window.bind("<Down>", press_key)
-    window.bind("<Right>", press_key)
-    window.bind("<Left>", press_key)
-    window.bind("<Escape>", close_game)
+    for key in ["<Up>", "<Down>", "<Right>", "<Left>"]:
+        window.bind(key, press_key)
     window.mainloop()
 
 main()

@@ -1,15 +1,13 @@
 {
     "game":
     {
-        "game_width": 400, 
-        "game_height": 250,
         "_comment": "The game speed is a number between 1 and 20.",
-        "game_speed": 17
+        "game_speed": 18
     },
     "window": 
     {
-        "window_width": 800, 
-        "window_height": 600 
+        "window_width": 1080, 
+        "window_height": 720 
     },
     "canvas":
     {
