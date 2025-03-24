@@ -96,9 +96,9 @@ def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinte
     elif [x, y] in wall.coordinates:
         close_game()
         return
-    elif [a, b] in snake2.coordinates[1:]:
-        close_game()
-        return
+    # elif [a, b] in snake2.coordinates[1:]:
+    #     close_game()
+    #     return
     elif [a,b] in wall.coordinates:
         close_game()
         return
@@ -155,8 +155,8 @@ def main():
     text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {score}", font=("Helvetica", 16))
     
     food = Food(canvas)
-    snake = Snake(canvas, 1, [1,1])
-    snake2 = Snake(canvas, 2, [WINDOW_WIDTH/PIXEL_SIZE-1, 1])
+    snake = Snake(canvas, 1)
+    snake2 = Snake(canvas, 2)
     wall = Wall()
     wall.near_wall(canvas)
     

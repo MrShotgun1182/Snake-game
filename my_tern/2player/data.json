@@ -18,13 +18,15 @@
     {
         "snake_size": 3,
         "snake_color": "#7D0A0A",
-        "snake_direction": "Down"
+        "snake_direction": "Down",
+        "snake_position": [1,1]
     },
     "snake2":
     {
         "snake_size": 3,
         "snake_color": "#7D0A0A",
-        "snake_direction": "Down"
+        "snake_direction": "Down",
+        "snake_position": [10,1]
     },
     "food":
     {
