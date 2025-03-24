@@ -2,7 +2,7 @@
     "game":
     {
         "_comment": "The game speed is a number between 1 and 20.",
-        "game_speed": 18
+        "game_speed": 16
     },
     "window": 
     {
@@ -17,16 +17,14 @@
     "snake1":
     {
         "snake_size": 3,
-        "snake_color": "#7D0A0A",
-        "snake_direction": "Down",
-        "snake_position": [1,1]
+        "snake_color": "#8F87F1",
+        "snake_direction": "Down"
     },
     "snake2":
     {
         "snake_size": 3,
-        "snake_color": "#7D0A0A",
-        "snake_direction": "s",
-        "snake_position": [10,1]
+        "snake_color": "#3F7D58",
+        "snake_direction": "s"
     },
     "food":
     {

@@ -42,6 +42,40 @@ def eat_food(food: Food, canvas: tkinter.Canvas):
     canvas.delete(food.food_id)
     del food
     return Food(canvas)
+
+def delete_tail(snake: Snake, canvas: tkinter.Canvas):
+    canvas.delete(snake.squares[-1])
+    del snake.coordinates[-1]
+    del snake.squares[-1]
+
+def food_collision(snake: Snake, snake2: Snake, food: Food, canvas: tkinter.Canvas):
+    if snake.coordinates[0] == food.coordinates:
+        delete_tail(snake2, canvas)
+        return eat_food(food, canvas), True
+    elif snake2.coordinates[0] == food.coordinates:
+        delete_tail(snake, canvas)
+        return eat_food(food, canvas), True
+    return food, False
+    
+
+def snake_collision(snake: Snake, snake2: Snake, wall: Wall):
+    if  snake.coordinates[0] in snake.coordinates[1:] or \
+        snake.coordinates[0] in snake2.coordinates or \
+        snake.coordinates[0] in wall.coordinates:
+        close_game()
+        return True
+
+    if  snake2.coordinates[0] in snake2.coordinates[1:] or \
+        snake2.coordinates[0] in snake.coordinates or \
+        snake2.coordinates[0] in wall.coordinates:
+        close_game()
+        return True
+    
+    if snake.coordinates[0] == snake2.coordinates[0]:
+        close_game()
+        return True
+    
+    return False
     
 def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
     global KEY_QUEUE, KEY_QUEUE2
@@ -89,39 +123,12 @@ def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinte
     snake2.coordinates.insert(0, [a, b])
     square2 = canvas.create_rectangle(a, b, a+PIXEL_SIZE, b+PIXEL_SIZE, fill=snake2.snake_color)
     snake2.squares.insert(0, square2)
-    
-    if [x, y] in snake.coordinates[1:]:
-        close_game()
-        return
-    elif [x, y] in wall.coordinates:
-        close_game()
-        return
-    # elif [a, b] in snake2.coordinates[1:]:
-    #     close_game()
-    #     return
-    elif [a,b] in wall.coordinates:
-        close_game()
-        return
-    elif [x, y] == food.coordinates:
-        food = eat_food(food, canvas)
-        
-        canvas.delete(snake2.squares[-1])
-        del snake2.coordinates[-1]
-        del snake2.squares[-1]
-    elif [a, b] == food.coordinates:
-        food = eat_food(food, canvas)
 
-        canvas.delete(snake.squares[-1])
-        del snake.coordinates[-1]
-        del snake.squares[-1]
-    else:
-        canvas.delete(snake.squares[-1])
-        del snake.coordinates[-1]
-        del snake.squares[-1]
-        
-        canvas.delete(snake2.squares[-1])
-        del snake2.coordinates[-1]
-        del snake2.squares[-1]
+    food, status = food_collision(snake, snake2, food, canvas)
+    if  not snake_collision(snake, snake2, wall) and \
+        not status:
+        delete_tail(snake, canvas)
+        delete_tail(snake2, canvas)
     
     window.after(GAME_SPEED, next_turn, snake, snake2, food, wall, canvas)
     
@@ -155,8 +162,8 @@ def main():
     text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {score}", font=("Helvetica", 16))
     
     food = Food(canvas)
-    snake = Snake(canvas, 1)
-    snake2 = Snake(canvas, 2)
+    snake = Snake(canvas, 1, [(WINDOW_WIDTH/PIXEL_SIZE)-2, 1])
+    snake2 = Snake(canvas, 2, [1,1])
     wall = Wall()
     wall.near_wall(canvas)
     
