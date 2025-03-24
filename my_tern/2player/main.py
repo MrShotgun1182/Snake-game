@@ -162,7 +162,7 @@ def main():
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
     canvas.pack()
     
-    text_score = canvas.create_text(WINDOW_WIDTH - (PIXEL_SIZE*5), PIXEL_SIZE, anchor="nw", text=f"Score: {0}", font=("Helvetica", 16), )
+    text_score = canvas.create_text(WINDOW_WIDTH - (PIXEL_SIZE*5), PIXEL_SIZE, anchor="nw", text=f"Score: {0}", font=("Helvetica", 16))
     text_score2 = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {0}", font=("Helvetica", 16))
     
     food = Food(canvas)
