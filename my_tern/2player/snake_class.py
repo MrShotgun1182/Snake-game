@@ -3,7 +3,8 @@ import json
 import os
 
 class Snake:
-    def __init__(self, canvas: tkinter.Canvas, snake_number):
+    def __init__(self, canvas: tkinter.Canvas, snake_number, position):
+        self.snake_position = position
         self.squares = list()
         self.coordinates = list()
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +15,6 @@ class Snake:
             self.snake_size = data[F"snake{snake_number}"]["snake_size"]
             self.pixel_size = data["canvas"]["pixel_size"]
             self.snake_direction = data[F"snake{snake_number}"]["snake_direction"]
-            self.snake_position = data[F"snake{snake_number}"]["snake_position"]
         
         for i in range(self.snake_size):
             self.coordinates.append([self.pixel_size*self.snake_position[0], self.pixel_size*self.snake_position[1]])
