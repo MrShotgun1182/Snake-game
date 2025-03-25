@@ -43,9 +43,4 @@ class Keys:
             snake.snake_direction = next_direction
         elif next_direction == "s" and snake2.snake_direction != "w":
             snake2.snake_direction = next_direction
-    
-    def fun_key_thread(self, snake: Snake, snake2: Snake):
-        if self.KEY_QUEUE:
-            self.handel_key(snake, snake2)
-        self.window.after(50, self.fun_key_thread, snake, snake2)
         
