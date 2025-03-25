@@ -2,7 +2,7 @@
     "game":
     {
         "_comment": "The game speed is a number between 1 and 20.",
-        "game_speed": 16
+        "game_speed": 18
     },
     "window": 
     {
@@ -34,5 +34,4 @@
     {
         "wall_color": "#D5C7A3"
     }
-
 }

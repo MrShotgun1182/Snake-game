@@ -1,7 +1,7 @@
 import tkinter 
 import json
 import os
-import random
+import threading
 from snake_class import Snake
 from food_class import Food
 from wall_class import Wall
@@ -12,7 +12,6 @@ PIXEL_SIZE: int
 BACKGROUND_COLOR: str
 GAME_SPEED: int
 KEY_QUEUE = []
-KEY_QUEUE2 = []
 
 def get_data():
     global WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_COLOR, PIXEL_SIZE, GAME_SPEED
@@ -80,25 +79,29 @@ def snake_collision(snake: Snake, snake2: Snake, wall: Wall):
         return True
     
     return False
+
+def handel_key(snake: Snake, snake2: Snake):
+    global KEY_QUEUE
+    next_direction = KEY_QUEUE.pop(0) 
+    if next_direction == "Right" and snake.snake_direction != "Left":
+        snake.snake_direction = next_direction
+    elif next_direction == "d" and snake2.snake_direction != "a":
+        snake2.snake_direction = next_direction
+    elif next_direction == "Left" and snake.snake_direction != "Right":
+        snake.snake_direction = next_direction
+    elif next_direction == "a" and snake2.snake_direction != "d":
+        snake2.snake_direction = next_direction
+    elif next_direction == "Up" and snake.snake_direction != "Down":
+        snake.snake_direction = next_direction
+    elif next_direction == "w" and snake2.snake_direction != "s":
+        snake2.snake_direction = next_direction
+    elif next_direction == "Down" and snake.snake_direction != "Up":
+        snake.snake_direction = next_direction
+    elif next_direction == "s" and snake2.snake_direction != "w":
+        snake2.snake_direction = next_direction
     
 def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
-    global KEY_QUEUE, KEY_QUEUE2
-
-    if KEY_QUEUE:
-        next_direction = KEY_QUEUE.pop(0) 
-        if (next_direction == "Right" and snake.snake_direction != "Left") or \
-           (next_direction == "Left" and snake.snake_direction != "Right") or \
-           (next_direction == "Up" and snake.snake_direction != "Down") or \
-           (next_direction == "Down" and snake.snake_direction != "Up"):
-            snake.snake_direction = next_direction
-
-    if KEY_QUEUE2:
-        next_direction = KEY_QUEUE2.pop(0) 
-        if (next_direction == "d" and snake2.snake_direction != "a") or \
-           (next_direction == "a" and snake2.snake_direction != "d") or \
-           (next_direction == "w" and snake2.snake_direction != "s") or \
-           (next_direction == "s" and snake2.snake_direction != "w"):
-            snake2.snake_direction = next_direction
+    global KEY_QUEUE
 
     x, y = snake.coordinates[0]
     if snake.snake_direction == "Up":
@@ -137,11 +140,15 @@ def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinte
     window.after(GAME_SPEED, next_turn, snake, snake2, food, wall, canvas)
     
 def press_key(event=None):
-    global KEY_QUEUE, KEY_QUEUE2
-    if event.keysym in ["Right", "Left", "Up", "Down"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
+    global KEY_QUEUE
+    if event.keysym in ["Right", "Left", "Up", "Down", "w", "a", "s", "d"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
         KEY_QUEUE.append(event.keysym)
-    if event.keysym in [ "w", "a", "s", "d"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
-        KEY_QUEUE2.append(event.keysym)
+    
+def fun_key_thread(snake, snake2):
+    global KEY_QUEUE
+    while True:
+        if KEY_QUEUE:
+            handel_key(snake, snake2)
     
 def close_game(event=None):
     global window
@@ -176,6 +183,9 @@ def main():
 
     window.bind("<Escape>", close_game)
 
+    key_thread = threading.Thread(target=fun_key_thread, args=(snake, snake2,), daemon=True)
+    key_thread.start()
+    
     next_turn(snake, snake2, food, wall, canvas)
 
     window.mainloop()
