@@ -16,14 +16,16 @@
     },
     "snake1":
     {
-        "snake_keys": ["<Up>", "<Down>", "<Right>", "<Left>"],
+        "_comment": "Key combinations are important.",
+        "snake_keys": ["Up", "Down", "Right", "Left"],
         "snake_size": 3,
         "snake_color": "#8F87F1",
         "snake_direction": "Down"
     },
     "snake2":
     {
-        "snake_keys": [ "w", "a", "s", "d"],
+        "_comment": "Key combinations are important.",
+        "snake_keys": [ "w", "s", "d", "a"],
         "snake_size": 3,
         "snake_color": "#3F7D58",
         "snake_direction": "s"

@@ -12,7 +12,6 @@ PIXEL_SIZE: int
 BACKGROUND_COLOR: str
 GAME_SPEED: int
 KEY_QUEUE = []
-KEY_QUEUE2 = []
 
 def get_data():
     global WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_COLOR, PIXEL_SIZE, GAME_SPEED
@@ -47,17 +46,12 @@ def eat_food(food: Food, snake: Snake, canvas: tkinter.Canvas, snake_number):
     del food
     return Food(canvas)
 
-def delete_tail(snake: Snake, canvas: tkinter.Canvas):
-    canvas.delete(snake.squares[-1])
-    del snake.coordinates[-1]
-    del snake.squares[-1]
-
 def food_collision(snake: Snake, snake2: Snake, food: Food, canvas: tkinter.Canvas):
     if snake.coordinates[0] == food.coordinates:
-        delete_tail(snake2, canvas)
+        snake2.delete_tail(canvas)
         return eat_food(food, snake, canvas, 1), True
     elif snake2.coordinates[0] == food.coordinates:
-        delete_tail(snake, canvas)
+        snake.delete_tail(canvas)
         return eat_food(food, snake2, canvas, 2), True
     return food, False
     
@@ -68,7 +62,7 @@ def snake_collision(snake: Snake, snake2: Snake, wall: Wall):
         snake.coordinates[0] in wall.coordinates:
         close_game()
         return True
-
+    
     if  snake2.coordinates[0] in snake2.coordinates[1:] or \
         snake2.coordinates[0] in snake.coordinates or \
         snake2.coordinates[0] in wall.coordinates:
@@ -82,53 +76,21 @@ def snake_collision(snake: Snake, snake2: Snake, wall: Wall):
     return False
     
 def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinter.Canvas, keys: Keys):
-    global KEY_QUEUE, KEY_QUEUE2
+    global KEY_QUEUE
 
     if keys.KEY_QUEUE:
         keys.handel_key(snake, snake2)
     
-    x, y = snake.coordinates[0]
-    if snake.snake_direction == "Up":
-        y -= PIXEL_SIZE
-    elif snake.snake_direction == "Down":
-        y += PIXEL_SIZE
-    elif snake.snake_direction == "Right":
-        x += PIXEL_SIZE
-    elif snake.snake_direction == "Left":
-        x -= PIXEL_SIZE
-        
-    a, b = snake2.coordinates[0]
-    if snake2.snake_direction == "w":
-        b -= PIXEL_SIZE
-    elif snake2.snake_direction == "s":
-        b += PIXEL_SIZE
-    elif snake2.snake_direction == "d":
-        a += PIXEL_SIZE
-    elif snake2.snake_direction == "a":
-        a -= PIXEL_SIZE
-
-    snake.coordinates.insert(0, [x, y])
-    square = canvas.create_rectangle(x, y, x+PIXEL_SIZE, y+PIXEL_SIZE, fill=snake.snake_color)
-    snake.squares.insert(0, square)
-    
-    snake2.coordinates.insert(0, [a, b])
-    square2 = canvas.create_rectangle(a, b, a+PIXEL_SIZE, b+PIXEL_SIZE, fill=snake2.snake_color)
-    snake2.squares.insert(0, square2)
+    snake.new_head(canvas)
+    snake2.new_head(canvas)
 
     food, status = food_collision(snake, snake2, food, canvas)
     if  not snake_collision(snake, snake2, wall) and \
         not status:
-        delete_tail(snake, canvas)
-        delete_tail(snake2, canvas)
+        snake2.delete_tail(canvas)
+        snake.delete_tail(canvas)
     
     window.after(GAME_SPEED, next_turn, snake, snake2, food, wall, canvas, keys)
-    
-def press_key(event=None):
-    global KEY_QUEUE, KEY_QUEUE2
-    if event.keysym in ["Right", "Left", "Up", "Down"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
-        KEY_QUEUE.append(event.keysym)
-    if event.keysym in [ "w", "a", "s", "d"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
-        KEY_QUEUE2.append(event.keysym)
     
 def close_game(event=None):
     global window
@@ -161,7 +123,8 @@ def main():
 
     window.bind("<Escape>", close_game)
 
-    next_turn(snake, snake2, food, wall, canvas, keys)
+    next_turn(snake, snake2, food, wall, canvas, keys) 
+    
 
     window.mainloop()
 
