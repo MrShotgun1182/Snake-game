@@ -2,17 +2,17 @@
     "game":
     {
         "_comment": "The game speed is a number between 1 and 20.",
-        "game_speed": 18
+        "game_speed": 16
     },
     "window": 
     {
-        "window_width": 1080, 
-        "window_height": 720 
+        "window_width": 800, 
+        "window_height": 600 
     },
     "canvas":
     {
         "background_color": "#5F99AE",
-        "pixel_size": 20
+        "pixel_size":25
     },
     "snake1":
     {
