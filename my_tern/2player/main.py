@@ -1,10 +1,11 @@
 import tkinter 
 import json
 import os
-import threading
+from multiprocessing import Process
 from snake_class import Snake
 from food_class import Food
 from wall_class import Wall
+from keys_class import Keys
 
 WINDOW_WIDTH: int
 WINDOW_HEIGHT: int
@@ -80,25 +81,25 @@ def snake_collision(snake: Snake, snake2: Snake, wall: Wall):
     
     return False
 
-def handel_key(snake: Snake, snake2: Snake):
-    global KEY_QUEUE
-    next_direction = KEY_QUEUE.pop(0) 
-    if next_direction == "Right" and snake.snake_direction != "Left":
-        snake.snake_direction = next_direction
-    elif next_direction == "d" and snake2.snake_direction != "a":
-        snake2.snake_direction = next_direction
-    elif next_direction == "Left" and snake.snake_direction != "Right":
-        snake.snake_direction = next_direction
-    elif next_direction == "a" and snake2.snake_direction != "d":
-        snake2.snake_direction = next_direction
-    elif next_direction == "Up" and snake.snake_direction != "Down":
-        snake.snake_direction = next_direction
-    elif next_direction == "w" and snake2.snake_direction != "s":
-        snake2.snake_direction = next_direction
-    elif next_direction == "Down" and snake.snake_direction != "Up":
-        snake.snake_direction = next_direction
-    elif next_direction == "s" and snake2.snake_direction != "w":
-        snake2.snake_direction = next_direction
+# def handel_key(snake: Snake, snake2: Snake):
+#     global KEY_QUEUE
+#     next_direction = KEY_QUEUE.pop(0) 
+#     if next_direction == "Right" and snake.snake_direction != "Left":
+#         snake.snake_direction = next_direction
+#     elif next_direction == "d" and snake2.snake_direction != "a":
+#         snake2.snake_direction = next_direction
+#     elif next_direction == "Left" and snake.snake_direction != "Right":
+#         snake.snake_direction = next_direction
+#     elif next_direction == "a" and snake2.snake_direction != "d":
+#         snake2.snake_direction = next_direction
+#     elif next_direction == "Up" and snake.snake_direction != "Down":
+#         snake.snake_direction = next_direction
+#     elif next_direction == "w" and snake2.snake_direction != "s":
+#         snake2.snake_direction = next_direction
+#     elif next_direction == "Down" and snake.snake_direction != "Up":
+#         snake.snake_direction = next_direction
+#     elif next_direction == "s" and snake2.snake_direction != "w":
+#         snake2.snake_direction = next_direction
     
 def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
     global KEY_QUEUE
@@ -139,16 +140,16 @@ def next_turn(snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinte
     
     window.after(GAME_SPEED, next_turn, snake, snake2, food, wall, canvas)
     
-def press_key(event=None):
-    global KEY_QUEUE
-    if event.keysym in ["Right", "Left", "Up", "Down", "w", "a", "s", "d"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
-        KEY_QUEUE.append(event.keysym)
+# def press_key(event=None):
+#     global KEY_QUEUE
+#     if event.keysym in ["Right", "Left", "Up", "Down", "w", "a", "s", "d"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
+#         KEY_QUEUE.append(event.keysym)
     
-def fun_key_thread(snake, snake2):
-    global KEY_QUEUE
-    while True:
-        if KEY_QUEUE:
-            handel_key(snake, snake2)
+# def fun_key_thread(snake, snake2):
+#     global KEY_QUEUE
+#     while True:
+#         if KEY_QUEUE:
+#             handel_key(snake, snake2)
     
 def close_game(event=None):
     global window
@@ -177,14 +178,12 @@ def main():
     snake2 = Snake(canvas, 2, [1,1])
     wall = Wall()
     wall.near_wall(canvas)
+    keys = Keys(window)
     
-    for key in ["<Up>", "<Down>", "<Right>", "<Left>", "w", "a", "s", "d"]:
-        window.bind(key, press_key)
+    # for key in ["<Up>", "<Down>", "<Right>", "<Left>", "w", "a", "s", "d"]:
+    #     window.bind(key, press_key)
 
     window.bind("<Escape>", close_game)
-
-    key_thread = threading.Thread(target=fun_key_thread, args=(snake, snake2,), daemon=True)
-    key_thread.start()
     
     next_turn(snake, snake2, food, wall, canvas)
 
