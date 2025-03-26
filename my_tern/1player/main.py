@@ -1,10 +1,11 @@
 import tkinter 
 import json
 import os
-import random
 from snake_class import Snake
 from food_class import Food
 from wall_class import Wall
+from keys_class import Keys
+from function import *
 
 WINDOW_WIDTH: int
 WINDOW_HEIGHT: int
@@ -25,7 +26,7 @@ def get_data():
         PIXEL_SIZE = data["canvas"]["pixel_size"]
         GAME_SPEED = 500 - (25 * data["game"]["game_speed"])
         
-def window_setup():
+def window_setup(window: tkinter.Tk):
     window.title("Snake Game")
     screenwidth = window.winfo_screenwidth()
     screenheight = window.winfo_screenheight()
@@ -34,85 +35,39 @@ def window_setup():
     window.geometry(F"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{x}+{y}")
     window.resizable(False, False)
     
-def eat_food(food: Food, canvas: tkinter.Canvas):
-    global score
-    score += 1
-    canvas.itemconfig(text_score, text=f"Score: {score}")
-    canvas.delete(food.food_id)
-    del food
-    return Food(canvas)
+def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas, keys: Keys):
+    if keys.KEY_QUEUE:
+        keys.handel_key(snake)
     
-def next_turn(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas):
-    global direction, KEY_QUEUE
+    snake.new_head(canvas)
 
-    if KEY_QUEUE:
-        next_direction = KEY_QUEUE.pop(0) 
-        if (next_direction == "Right" and direction != "Left") or \
-           (next_direction == "Left" and direction != "Right") or \
-           (next_direction == "Up" and direction != "Down") or \
-           (next_direction == "Down" and direction != "Up"):
-            direction = next_direction
-
-    x, y = snake.coordinates[0]
-    if direction == "Up":
-        y -= PIXEL_SIZE
-    elif direction == "Down":
-        y += PIXEL_SIZE
-    elif direction == "Right":
-        x += PIXEL_SIZE
-    elif direction == "Left":
-        x -= PIXEL_SIZE
-
-    snake.coordinates.insert(0, [x, y])
-    square = canvas.create_rectangle(x, y, x+PIXEL_SIZE, y+PIXEL_SIZE, fill=snake.snake_color)
-    snake.squares.insert(0, square)
+    food, status = food_collision(snake, food, canvas, text_score)
+    if  not snake_collision(window, snake, wall) and not status:
+        snake.delete_tail(canvas)
     
-    if [x, y] in snake.coordinates[1:]:
-        close_game()
-        return
-    elif [x, y] in wall.coordinates:
-        close_game()
-        return
-    elif [x, y] == food.coordinates:
-        food = eat_food(food, canvas)
-    else:
-        canvas.delete(snake.squares[-1])
-        del snake.coordinates[-1]
-        del snake.squares[-1]
-    
-    window.after(GAME_SPEED, next_turn, snake, food, wall, canvas)
-    
-def press_key(event=None):
-    global KEY_QUEUE
-    if event.keysym in ["Right", "Left", "Up", "Down"] and (len(KEY_QUEUE) == 0 or KEY_QUEUE[-1] != event.keysym):
-        KEY_QUEUE.append(event.keysym)
-    
-def close_game(event=None):
-    global window
-    if window.winfo_exists():
-        for widgt in window.winfo_children():
-            widgt.destroy()
-        window.destroy()
-    del window
+    window.after(GAME_SPEED, next_turn, window, snake, food, wall, canvas, keys)
     
 def main():
-    global window, direction
-    global score, text_score
-    score = 0
+    global text_score
+
     window = tkinter.Tk()
+    
     get_data()
-    window_setup()
+    window_setup(window)
+    
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
     canvas.pack()
-    text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {score}", font=("Helvetica", 16))
-    direction = 'Down'
+    
+    text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score1: {0}", font=("Helvetica", 16))
+    
     food = Food(canvas)
-    snake = Snake(canvas)
+    snake = Snake(canvas, 1, [(WINDOW_WIDTH/PIXEL_SIZE)-2, 1])
     wall = Wall()
     wall.near_wall(canvas)
-    next_turn(snake, food, wall, canvas)
-    for key in ["<Up>", "<Down>", "<Right>", "<Left>"]:
-        window.bind(key, press_key)
+    keys = Keys(window)
+
+    next_turn(window, snake, food, wall, canvas, keys) 
+    
     window.mainloop()
 
 main()

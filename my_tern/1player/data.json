@@ -2,23 +2,33 @@
     "game":
     {
         "_comment": "The game speed is a number between 1 and 20.",
-        "game_speed": 15
+        "game_speed": 16
     },
     "window": 
     {
-        "window_width": 600, 
-        "window_height": 400
+        "window_width": 800, 
+        "window_height": 600 
     },
     "canvas":
     {
         "background_color": "#5F99AE",
-        "pixel_size": 30
+        "pixel_size":25
     },
-    "snake":
+    "snake1":
     {
+        "_comment": "Key combinations are important.",
+        "snake_keys": ["Up", "Down", "Right", "Left"],
         "snake_size": 3,
-        "snake_color": "#7D0A0A",
-        "snake_position": [1,1]
+        "snake_color": "#8F87F1",
+        "snake_direction": "Down"
+    },
+    "snake2":
+    {
+        "_comment": "Key combinations are important.",
+        "snake_keys": [ "w", "s", "d", "a"],
+        "snake_size": 3,
+        "snake_color": "#3F7D58",
+        "snake_direction": "s"
     },
     "food":
     {
@@ -28,5 +38,4 @@
     {
         "wall_color": "#D5C7A3"
     }
-
 }
