@@ -6,6 +6,7 @@ from food_class import Food
 from wall_class import Wall
 from keys_class import Keys
 from function import *
+from collect_data import Collector
 
 WINDOW_WIDTH: int
 WINDOW_HEIGHT: int
@@ -35,17 +36,19 @@ def window_setup(window: tkinter.Tk):
     window.geometry(F"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{x}+{y}")
     window.resizable(False, False)
     
-def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas, keys: Keys):
+def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas, keys: Keys, collector: Collector):
     if keys.KEY_QUEUE:
         keys.handel_key(snake)
     
     snake.new_head(canvas)
 
     food, status = food_collision(snake, food, canvas, text_score)
-    if  not snake_collision(window, snake, wall) and not status:
+    if  not snake_collision(window, snake, wall, collector) and not status:
         snake.delete_tail(canvas)
     
-    window.after(GAME_SPEED, next_turn, window, snake, food, wall, canvas, keys)
+    collector.collect(snake=snake, food=food)
+    
+    window.after(GAME_SPEED, next_turn, window, snake, food, wall, canvas, keys, collector)
     
 def main():
     global text_score
@@ -65,8 +68,9 @@ def main():
     wall = Wall()
     wall.near_wall(canvas)
     keys = Keys(window)
+    collector = Collector()
 
-    next_turn(window, snake, food, wall, canvas, keys) 
+    next_turn(window, snake, food, wall, canvas, keys, collector) 
     
     window.mainloop()
 

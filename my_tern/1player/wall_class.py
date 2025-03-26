@@ -2,6 +2,7 @@ import tkinter
 import json
 import os
 
+
 class Wall:
     def __init__(self):
         self.coordinates = []
@@ -37,4 +38,16 @@ class Wall:
             square = canvas.create_rectangle(x, y, x+self.pixel_size, y+self.pixel_size, fill=self.wall_color)
             self.squares.append(square)
             y += self.pixel_size
+
+        # current_dir = os.path.dirname(os.path.abspath(__file__))
+        # data_path = os.path.join(current_dir, 'wall.json')
+        # try:
+        #     with open(data_path, 'r') as f:
+        #         data = json.load(f)
+        # except FileNotFoundError:
+
+        # data["wall"] = self.coordinates
+
+        # with open(data_path, 'w') as f:
+        #     json.dump(data, f, indent=4)
 

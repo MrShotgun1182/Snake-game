@@ -2,10 +2,12 @@ import tkinter
 from snake_class import Snake
 from food_class import Food
 from wall_class import Wall
+from collect_data import Collector
 
-def snake_collision(window: tkinter.Tk, snake: Snake, wall: Wall):
+def snake_collision(window: tkinter.Tk, snake: Snake, wall: Wall, collector: Collector):
     if  snake.coordinates[0] in snake.coordinates[1:] or \
         snake.coordinates[0] in wall.coordinates:
+        collector.save_rows()
         close_game(window, 2)
         return True
     

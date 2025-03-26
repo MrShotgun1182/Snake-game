@@ -19,7 +19,7 @@ class Snake:
             self.snake_keys = data[F"snake{snake_number}"]["snake_keys"]
         
         for i in range(self.snake_size):
-            self.coordinates.append([self.pixel_size*self.snake_position[0], self.pixel_size*self.snake_position[1]])
+            self.coordinates.append([int(self.pixel_size*self.snake_position[0]), self.pixel_size*self.snake_position[1]])
             
         for x, y in self.coordinates:
             square = canvas.create_rectangle(x, y, x+self.pixel_size, y+self.pixel_size, fill=self.snake_color)
