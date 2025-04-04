@@ -6,6 +6,7 @@
     },
     "window": 
     {
+        "_comment": "Because of the relation between pixel size and image dimensions, the image dimensions must be a multiple of the pixel size.",
         "window_width": 800, 
         "window_height": 600 
     },
