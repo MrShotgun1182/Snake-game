@@ -69,7 +69,8 @@ def main():
     keys = Keys(window)
     collector = Collector()
     wall.near_wall(canvas)
-    wall.mid_wall(canvas)
+    # wall.mid_wall(canvas)
+    # wall.random_wall(snake, canvas, 30)
     food.new_food(snake, wall, canvas)
 
     next_turn(window, snake, food, wall, canvas, keys, collector)
