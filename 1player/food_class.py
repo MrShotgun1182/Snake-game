@@ -2,6 +2,8 @@ import tkinter
 import json
 import os
 import random
+from wall_class import Wall
+from snake_class import Snake
 
 class Food:
     def __init__(self ,canvas: tkinter.Canvas):
@@ -19,7 +21,6 @@ class Food:
             self.special_food_color = data['food']['special_food_color']
             self.special_food_score = data['food']['special_food_score']
             self.special_food_chans = data['food']['special_food_chans']
-        self.new_food(canvas)
 
     def __select_food(self):
         if random.random() > self.special_food_chans:
@@ -30,9 +31,13 @@ class Food:
             self.color = self.special_food_color
 
 
-    def new_food(self, canvas):
+    def new_food(self,snake: Snake, wall: Wall, canvas: tkinter.Canvas):
         self.__select_food()
-        x = random.randint(1, int((self.window_width/self.pixel_size))-2) * self.pixel_size
-        y = random.randint(1, int((self.window_height/self.pixel_size))-2) * self.pixel_size
+        while True:
+            x = random.randint(1, int((self.window_width/self.pixel_size))-2) * self.pixel_size
+            y = random.randint(1, int((self.window_height/self.pixel_size))-2) * self.pixel_size
+            if not [x, y] in wall.coordinates and \
+            not [x, y] in snake.coordinates:
+                break
         self.coordinates = [x, y]
         self.food_id = canvas.create_oval(x, y, x+self.pixel_size, y+self.pixel_size, fill=self.color)
