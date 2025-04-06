@@ -33,6 +33,7 @@
     },
     "wall":
     {
-        "wall_color": "#D5C7A3"
+        "wall_color": "#D5C7A3",
+        "wall_locations": [[3,3], [3,5]]
     }
 }

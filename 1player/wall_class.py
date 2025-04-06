@@ -1,6 +1,7 @@
 import tkinter
 import json
 import os
+import random
 
 
 class Wall:
@@ -15,6 +16,7 @@ class Wall:
             self.window_width = data["window"]["window_width"]
             self.window_height = data["window"]["window_height"]
             self.pixel_size = data["canvas"]["pixel_size"]
+            self.wall_locations = data['wall']['wall_locations']
     
     def near_wall(self, canvas: tkinter.Canvas):
         x = 0
@@ -50,4 +52,14 @@ class Wall:
 
         # with open(data_path, 'w') as f:
         #     json.dump(data, f, indent=4)
+    
+    def mid_wall(self, canvas: tkinter.Canvas):
+        for x, y in self.wall_locations:
+            self.coordinates.append([x*self.pixel_size,y*self.pixel_size])
+            square = canvas.create_rectangle(x*self.pixel_size, y*self.pixel_size, (x*self.pixel_size)+self.pixel_size, (y*self.pixel_size)+self.pixel_size, fill=self.wall_color)
+            self.squares.append(square)
 
+    # def random_wall(self, count):
+    #     for _ in range(count):
+    #         x = random.randint(0, int((self.window_width/self.pixel_size))-1) * self.pixel_size
+    #         y = random.randint(0, int((self.window_height/self.pixel_size))-1) * self.pixel_size

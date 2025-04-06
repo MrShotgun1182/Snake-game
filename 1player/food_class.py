@@ -34,8 +34,8 @@ class Food:
     def new_food(self,snake: Snake, wall: Wall, canvas: tkinter.Canvas):
         self.__select_food()
         while True:
-            x = random.randint(1, int((self.window_width/self.pixel_size))-2) * self.pixel_size
-            y = random.randint(1, int((self.window_height/self.pixel_size))-2) * self.pixel_size
+            x = random.randint(0, int((self.window_width/self.pixel_size))-1) * self.pixel_size
+            y = random.randint(0, int((self.window_height/self.pixel_size))-1) * self.pixel_size
             if not [x, y] in wall.coordinates and \
             not [x, y] in snake.coordinates:
                 break
