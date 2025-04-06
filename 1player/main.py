@@ -42,7 +42,7 @@ def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: 
     
     snake.new_head(canvas)
 
-    food, status = food_collision(snake, food, canvas, text_score)
+    status = food_collision(snake, food, canvas, text_score)
     if  not snake_collision(window, snake, wall, collector) and not status:
         snake.delete_tail(canvas)
     

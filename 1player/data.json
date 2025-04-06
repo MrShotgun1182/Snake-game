@@ -23,17 +23,13 @@
         "snake_color": "#8F87F1",
         "snake_direction": "Down"
     },
-    "snake2":
-    {
-        "_comment": "Key combinations are important.",
-        "snake_keys": [ "w", "s", "d", "a"],
-        "snake_size": 3,
-        "snake_color": "#3F7D58",
-        "snake_direction": "s"
-    },
     "food":
     {
-        "food_color": "#A0C878"
+        "food_color": "#A0C878",
+        "food_score": 1,
+        "special_food_color": "#3F7D58",
+        "special_food_score": 2,
+        "special_food_chans":  0.2
     },
     "wall":
     {
