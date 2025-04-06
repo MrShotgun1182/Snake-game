@@ -21,7 +21,7 @@ class Food:
             self.special_food_chans = data['food']['special_food_chans']
         self.new_food(canvas)
 
-    def _select_food(self):
+    def __select_food(self):
         if random.random() > self.special_food_chans:
             self.score = self.food_score
             self.color = self.food_color
@@ -31,7 +31,7 @@ class Food:
 
 
     def new_food(self, canvas):
-        self._select_food()
+        self.__select_food()
         x = random.randint(1, int((self.window_width/self.pixel_size))-2) * self.pixel_size
         y = random.randint(1, int((self.window_height/self.pixel_size))-2) * self.pixel_size
         self.coordinates = [x, y]
