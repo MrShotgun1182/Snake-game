@@ -1,6 +1,9 @@
 import tkinter
 import json
 import os
+import random
+from snake_class import Snake
+
 
 class Wall:
     def __init__(self):
@@ -14,6 +17,8 @@ class Wall:
             self.window_width = data["window"]["window_width"]
             self.window_height = data["window"]["window_height"]
             self.pixel_size = data["canvas"]["pixel_size"]
+            self.wall_locations = data['wall']['wall_locations']
+            self.random_wall_number = data['wall']['random_wall_number']
     
     def near_wall(self, canvas: tkinter.Canvas):
         x = 0
@@ -37,4 +42,41 @@ class Wall:
             square = canvas.create_rectangle(x, y, x+self.pixel_size, y+self.pixel_size, fill=self.wall_color)
             self.squares.append(square)
             y += self.pixel_size
+
+        # current_dir = os.path.dirname(os.path.abspath(__file__))
+        # data_path = os.path.join(current_dir, 'wall.json')
+        # try:
+        #     with open(data_path, 'r') as f:
+        #         data = json.load(f)
+        # except FileNotFoundError:
+
+        # data["wall"] = self.coordinates
+
+        # with open(data_path, 'w') as f:
+        #     json.dump(data, f, indent=4)
+    
+    def mid_wall(self, canvas: tkinter.Canvas):
+        for x, y in self.wall_locations:
+            self.coordinates.append([x*self.pixel_size,y*self.pixel_size])
+            square = canvas.create_rectangle(x*self.pixel_size, y*self.pixel_size, (x*self.pixel_size)+self.pixel_size, (y*self.pixel_size)+self.pixel_size, fill=self.wall_color)
+            self.squares.append(square)
+
+    def random_wall(self, snake: Snake, snake2: Snake, canvas):
+        count = self.random_wall_number
+        for _ in range(count):
+            x = random.randint(0, int((self.window_width/self.pixel_size))-1) * self.pixel_size
+            y = random.randint(0, int((self.window_height/self.pixel_size))-1) * self.pixel_size
+            if [x, y] in snake.coordinates or \
+                [x, y] in snake2.coordinates or \
+                [x, y] in self.coordinates:
+                while True:
+                    x = random.randint(0, int((self.window_width/self.pixel_size))-1) * self.pixel_size
+                    y = random.randint(0, int((self.window_height/self.pixel_size))-1) * self.pixel_size
+                    if not [x, y] in snake.coordinates \
+                        or not [x ,y] in snake2.coordinates \
+                        or not [x, y] in self.coordinates:
+                        break
+            self.coordinates.append([x,y])
+            square = canvas.create_rectangle(x, y, (x)+self.pixel_size, (y)+self.pixel_size, fill=self.wall_color)
+            self.squares.append(square)
 

@@ -38,6 +38,8 @@
     },
     "wall":
     {
-        "wall_color": "#BDDDE4"
+        "wall_color": "#BDDDE4",
+        "wall_locations": [],
+        "random_wall_number": 3
     }
 }

@@ -68,6 +68,8 @@ def main():
     snake2 = Snake(canvas, 2, [1,1])
     wall = Wall()
     wall.near_wall(canvas)
+    wall.mid_wall(canvas)
+    wall.random_wall(snake, snake2, canvas)
     keys = Keys(window)
 
     window.bind("<Escape>", close_game)
