@@ -16,9 +16,11 @@ def snake_collision(window: tkinter.Tk, snake: Snake, wall: Wall, collector: Col
 
 def eat_food(food: Food, snake: Snake, wall: Wall, canvas: tkinter.Canvas, text_score,):
     snake.snake_score += food.score
-    canvas.itemconfig(text_score, text=f"Score1: {snake.snake_score}")
+    
+    canvas.itemconfig(text_score, text=f"Score: {snake.snake_score}")
     
     canvas.delete(food.food_id)
+
     food.new_food(snake, wall, canvas)
 
 def food_collision(snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas, text_score):

@@ -61,16 +61,17 @@ def main():
     canvas = tkinter.Canvas(window, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, bg=BACKGROUND_COLOR)
     canvas.pack()
     
-    text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score1: {0}", font=("Helvetica", 16))
+    text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {0}", font=("Helvetica", 16))
     
     food = Food(canvas)
     snake = Snake(canvas, 1, [(WINDOW_WIDTH/PIXEL_SIZE)-2, 1])
     wall = Wall()
     keys = Keys(window)
     collector = Collector()
+
     wall.near_wall(canvas)
     wall.mid_wall(canvas)
-    # wall.random_wall(snake, canvas, 30)
+    wall.random_wall(snake, canvas)
     food.new_food(snake, wall, canvas)
 
     next_turn(window, snake, food, wall, canvas, keys, collector)

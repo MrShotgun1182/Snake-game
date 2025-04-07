@@ -1,7 +1,7 @@
 {
     "game":
     {
-        "_comment": "The game speed is a number between 1 and 20.",
+        "_comment": "Normal game speed with simple walls and no special food.",
         "game_speed": 16
     },
     "window": 
@@ -12,7 +12,7 @@
     },
     "canvas":
     {
-        "background_color": "#5F99AE",
+        "background_color": "#9EC6F3",
         "pixel_size":25
     },
     "snake1":
@@ -20,20 +20,24 @@
         "_comment": "Key combinations are important.",
         "snake_keys": ["Up", "Down", "Right", "Left"],
         "snake_size": 3,
-        "snake_color": "#8F87F1",
+        "snake_color": "#FBF8EF",
         "snake_direction": "Down"
     },
     "food":
     {
-        "food_color": "#A0C878",
+        "food_color": "#1B56FD",
         "food_score": 1,
         "special_food_color": "#3F7D58",
         "special_food_score": 2,
-        "special_food_chans":  0.2
+        "special_food_chans":  0
     },
     "wall":
     {
         "wall_color": "#D5C7A3",
-        "wall_locations": [[3,3], [3,5], [3,4],[3,6],[3,7],[3,8],[3,9]]
+        "wall_locations": [[5,5],[6,5],[7,5],[8,5],[9,5],[10,5],[11,5],[12,5],[13,5],[14,5],[15,5]
+        ,[16,5],[17,5],[18,5],[19,5],[20,5],[21,5],[22,5],[23,5],[24,5],[25,5],[26,5],[5,18],[6,18]
+        ,[7,18],[8,18],[9,18],[10,18],[11,18],[12,18],[13,18],[14,18],[15,18],[16,18],[17,18],[18,18]
+        ,[19,18],[20,18],[21,18],[22,18],[23,18],[24,18],[25,18],[26,18]],
+        "random_wall_number": 0
     }
 }

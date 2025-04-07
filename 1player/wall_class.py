@@ -18,6 +18,7 @@ class Wall:
             self.window_height = data["window"]["window_height"]
             self.pixel_size = data["canvas"]["pixel_size"]
             self.wall_locations = data['wall']['wall_locations']
+            self.random_wall_number = data['wall']['random_wall_number']
     
     def near_wall(self, canvas: tkinter.Canvas):
         x = 0
@@ -60,7 +61,8 @@ class Wall:
             square = canvas.create_rectangle(x*self.pixel_size, y*self.pixel_size, (x*self.pixel_size)+self.pixel_size, (y*self.pixel_size)+self.pixel_size, fill=self.wall_color)
             self.squares.append(square)
 
-    def random_wall(self, snake: Snake, canvas, count):
+    def random_wall(self, snake: Snake, canvas):
+        count = self.random_wall_number
         for _ in range(count):
             x = random.randint(0, int((self.window_width/self.pixel_size))-1) * self.pixel_size
             y = random.randint(0, int((self.window_height/self.pixel_size))-1) * self.pixel_size
