@@ -1,7 +1,7 @@
 {
     "game":
     {
-        "_comment": "High Walls Game, normal speed and with the possibility of Special food.",
+        "_comment": "The easiest game mode.",
         "_comment2": "The game speed is a number between 1 and 20.",
         "game_speed": 16
     },
@@ -13,7 +13,7 @@
     },
     "canvas":
     {
-        "background_color": "#C68EFD",
+        "background_color": "#D4C9BE",
         "pixel_size":25
     },
     "snake1":
@@ -21,34 +21,21 @@
         "_comment": "Key combinations are important.",
         "snake_keys": ["Up", "Down", "Right", "Left"],
         "snake_size": 3,
-        "snake_color": "#E9A5F1",
+        "snake_color": "#123458",
         "snake_direction": "Down"
     },
     "food":
     {
-        "food_color": "#FED2E2",
+        "food_color": "#006A71",
         "food_score": 1,
         "special_food_color": "#3F7D58",
         "special_food_score": 2,
-        "special_food_chans":  0.1
+        "special_food_chans":  0
     },
     "wall":
     {
-        "wall_color": "#8F87F1",
-        "wall_locations": [[4,3],[4,4],[4,5],[4,6],[4,7],[4,8],[4,9]
-        ,[4,14],[4,15],[4,16],[4,17],[4,18],[4,19],[4,20]
-        ,[8,14],[8,15],[8,16],[8,17],[8,18],[8,19],[8,20]
-        ,[12,14],[12,15],[12,16],[12,17],[12,18],[12,19],[12,20]
-        ,[16,14],[16,15],[16,16],[16,17],[16,18],[16,19],[16,20]
-        ,[20,14],[20,15],[20,16],[20,17],[20,18],[20,19],[20,20]
-        ,[24,14],[24,15],[24,16],[24,17],[24,18],[24,19],[24,20]
-        ,[28,14],[28,15],[28,16],[28,17],[28,18],[28,19],[28,20]
-        ,[8,3],[8,4],[8,5],[8,6],[8,7],[8,8],[8,9]
-        ,[12,3],[12,4],[12,5],[12,6],[12,7],[12,8],[12,9]
-        ,[16,3],[16,4],[16,5],[16,6],[16,7],[16,8],[16,9]
-        ,[20,3],[20,4],[20,5],[20,6],[20,7],[20,8],[20,9]
-        ,[24,3],[24,4],[24,5],[24,6],[24,7],[24,8],[24,9]
-        ,[28,3],[28,4],[28,5],[28,6],[28,7],[28,8],[28,9]],
+        "wall_color": "#BDDDE4",
+        "wall_locations": [],
         "random_wall_number": 0
     }
 }
