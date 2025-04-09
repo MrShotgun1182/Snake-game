@@ -36,9 +36,9 @@ def window_setup(window: tkinter.Tk):
     window.resizable(False, False)
     
 def next_turn(window: tkinter.Tk, snake: Snake, snake2:Snake, food: Food, wall: Wall, canvas: tkinter.Canvas, keys: Keys):
+    
     if keys.KEY_QUEUE:
         keys.handel_key(snake, snake2)
-    
     snake.new_head(canvas)
     snake2.new_head(canvas)
 

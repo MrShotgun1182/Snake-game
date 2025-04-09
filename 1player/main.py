@@ -64,7 +64,7 @@ def main():
     text_score = canvas.create_text(PIXEL_SIZE, PIXEL_SIZE, anchor="nw", text=f"Score: {0}", font=("Helvetica", 16))
     
     food = Food(canvas)
-    snake = Snake(canvas, 1, [(WINDOW_WIDTH/PIXEL_SIZE)-2, 1])
+    snake = Snake(canvas)
     wall = Wall()
     keys = Keys(window)
     collector = Collector()

@@ -22,7 +22,8 @@
         "snake_keys": ["Up", "Down", "Right", "Left"],
         "snake_size": 3,
         "snake_color": "#123458",
-        "snake_direction": "Down"
+        "snake_direction": "Down",
+        "snake_position": [1,1]
     },
     "food":
     {

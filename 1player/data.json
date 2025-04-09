@@ -1,9 +1,9 @@
 {
     "game":
     {
-        "_comment": "The easiest game mode.",
+        "_comment": "Simple mode with high speed.",
         "_comment2": "The game speed is a number between 1 and 20.",
-        "game_speed": 16
+        "game_speed": 18
     },
     "window": 
     {
@@ -13,7 +13,7 @@
     },
     "canvas":
     {
-        "background_color": "#D4C9BE",
+        "background_color": "#5F99AE",
         "pixel_size":25
     },
     "snake1":
@@ -21,12 +21,13 @@
         "_comment": "Key combinations are important.",
         "snake_keys": ["Up", "Down", "Right", "Left"],
         "snake_size": 3,
-        "snake_color": "#123458",
-        "snake_direction": "Down"
+        "snake_color": "#8F87F1",
+        "snake_direction": "Down",
+        "snake_position": [5,5]
     },
     "food":
     {
-        "food_color": "#006A71",
+        "food_color": "#A0C878",
         "food_score": 1,
         "special_food_color": "#3F7D58",
         "special_food_score": 2,
@@ -34,7 +35,7 @@
     },
     "wall":
     {
-        "wall_color": "#BDDDE4",
+        "wall_color": "#D5C7A3",
         "wall_locations": [],
         "random_wall_number": 0
     }
