@@ -23,7 +23,7 @@
         "snake_size": 3,
         "snake_color": "#8F87F1",
         "snake_direction": "Down",
-        "snake_position": [1,1]
+        "snake_position": [10,1]
     },
     "food":
     {
