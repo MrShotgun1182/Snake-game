@@ -26,22 +26,21 @@ class Keys:
             self.KEY_QUEUE.append(event.keysym)
             
     def handel_key(self, snake: Snake, snake2: Snake):
-        while self.KEY_QUEUE:
-            next_direction = self.KEY_QUEUE.pop(0) 
-            if next_direction == self.snake_keys[2] and snake.snake_direction != self.snake_keys[3]:
-                snake.snake_direction = next_direction
-            elif next_direction == self.snake2_keys[2] and snake2.snake_direction != self.snake2_keys[3]:
-                snake2.snake_direction = next_direction
-            elif next_direction == self.snake_keys[3] and snake.snake_direction != self.snake_keys[2]:
-                snake.snake_direction = next_direction
-            elif next_direction == self.snake2_keys[3] and snake2.snake_direction != self.snake2_keys[2]:
-                snake2.snake_direction = next_direction
-            elif next_direction == self.snake_keys[0] and snake.snake_direction != self.snake_keys[1]:
-                snake.snake_direction = next_direction
-            elif next_direction == self.snake2_keys[0] and snake2.snake_direction != self.snake2_keys[1]:
-                snake2.snake_direction = next_direction
-            elif next_direction == self.snake_keys[1] and snake.snake_direction != self.snake_keys[0]:
-                snake.snake_direction = next_direction
-            elif next_direction == self.snake2_keys[1] and snake2.snake_direction != self.snake2_keys[0]:
-                snake2.snake_direction = next_direction
+        next_direction = self.KEY_QUEUE.pop(0) 
+        if next_direction == self.snake_keys[2] and snake.snake_direction != self.snake_keys[3]:
+            snake.snake_direction = next_direction
+        elif next_direction == self.snake2_keys[2] and snake2.snake_direction != self.snake2_keys[3]:
+            snake2.snake_direction = next_direction
+        elif next_direction == self.snake_keys[3] and snake.snake_direction != self.snake_keys[2]:
+            snake.snake_direction = next_direction
+        elif next_direction == self.snake2_keys[3] and snake2.snake_direction != self.snake2_keys[2]:
+            snake2.snake_direction = next_direction
+        elif next_direction == self.snake_keys[0] and snake.snake_direction != self.snake_keys[1]:
+            snake.snake_direction = next_direction
+        elif next_direction == self.snake2_keys[0] and snake2.snake_direction != self.snake2_keys[1]:
+            snake2.snake_direction = next_direction
+        elif next_direction == self.snake_keys[1] and snake.snake_direction != self.snake_keys[0]:
+            snake.snake_direction = next_direction
+        elif next_direction == self.snake2_keys[1] and snake2.snake_direction != self.snake2_keys[0]:
+            snake2.snake_direction = next_direction
         
