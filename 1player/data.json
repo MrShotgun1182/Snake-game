@@ -1,7 +1,7 @@
 {
     "game":
     {
-        "_comment": "MR level.",
+        "_comment": "The easiest game mode.",
         "_comment2": "The game speed is a number between 1 and 20.",
         "game_speed": 16
     },
@@ -13,7 +13,7 @@
     },
     "canvas":
     {
-        "background_color": "#C68EFD",
+        "background_color": "#D4C9BE",
         "pixel_size":25
     },
     "snake1":
@@ -21,27 +21,22 @@
         "_comment": "Key combinations are important.",
         "snake_keys": ["Up", "Down", "Right", "Left"],
         "snake_size": 3,
-        "snake_color": "#E9A5F1",
+        "snake_color": "#123458",
         "snake_direction": "Down",
         "snake_position": [1,1]
     },
     "food":
     {
-        "food_color": "#FED2E2",
+        "food_color": "#006A71",
         "food_score": 1,
         "special_food_color": "#3F7D58",
         "special_food_score": 2,
-        "special_food_chans":  0.1
+        "special_food_chans":  0
     },
     "wall":
     {
-        "wall_color": "#8F87F1",
-        "wall_locations": [[5,5],[5,6],[5,7],[5,8],[5,9],[5,10],[5,11],[5,12],
-                            [6,6],[7,7],[8,6],
-                            [9,5],[9,6],[9,7],[9,8],[9,9],[9,10],[9,11],[9,12],
-                            [14,5],[14,6],[14,7],[14,8],[14,9],[14,10],[14,11],[14,12],
-                            [15,5],[16,5],[17,5],[15,8],[16,8],[17,6],[17,7],[17,8],
-                            [16,9],[17,10],[17,11],[17,12]],
+        "wall_color": "#BDDDE4",
+        "wall_locations": [],
         "random_wall_number": 0
     }
 }
