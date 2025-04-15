@@ -15,7 +15,7 @@ class Model(nn.Module):
         # preprocessing
         self.df = self.__make_df()
         self.df = self.__hot_one_encode(columns=['direction'])
-        self.__check_and_update_distance(self.df)
+        self.__check_and_update_distance()
     
     def learning_loop(self, model:nn.Module):
         x = torch.tensor(self.x)
