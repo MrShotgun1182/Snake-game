@@ -12,6 +12,7 @@ class Model(nn.Module):
         self.line2 = nn.Linear(16, 1)
     
     def set_df(self):
+        # preprocessing
         self.df = self.__make_df()
         self.df = self.__hot_one_encode(columns=['direction'])
         self.__check_and_update_distance(self.df)
