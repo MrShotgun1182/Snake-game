@@ -6,9 +6,11 @@ class Collector:
 
     def collect(self, snake, food):
         data = {
-            "head_snake": snake.coordinates[0],
+            "head_x": snake.coordinates[0][0],
+            "head_y": snake.coordinates[0][1],
             # "body_snake": snake.coordinates[1:],
-            "food": food.coordinates,
+            "food_x": food.coordinates[0],
+            "food_y": food.coordinates[1],
             "direction": snake.snake_direction
         }
         self.rows.append(data)
@@ -23,13 +25,15 @@ class Collector:
             writer = csv.writer(file)
 
             # if not file_exists:
-            #     writer.writerow(["head_snake", "body_snake", "food", "direction"])
+            writer.writerow(["head_x", "head_y", "food_x", "food_y", "direction"])
 
             for row in self.rows[:-1]:
                 writer.writerow([
-                    row["head_snake"],
+                    row["head_x"],
+                    row["head_y"],
                     # row["body_snake"],
-                    row["food"],
+                    row["food_x"],
+                    row["food_y"],
                     row["direction"] 
                 ])
 
