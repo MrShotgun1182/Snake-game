@@ -3,7 +3,7 @@
     {
         "_comment": "The easiest game mode.",
         "_comment2": "The game speed is a number between 1 and 20.",
-        "game_speed": 16
+        "game_speed": 13
     },
     "window": 
     {
@@ -23,7 +23,7 @@
         "snake_size": 3,
         "snake_color": "#123458",
         "snake_direction": "Down",
-        "snake_position": [1,1]
+        "snake_position": [4,5]
     },
     "food":
     {

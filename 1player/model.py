@@ -10,18 +10,26 @@ class Model(nn.Module):
         super(Model, self).__init__()
         self.line1 = nn.Linear(4,16)
         self.relu1 = nn.ReLU()
-        self.line2 = nn.Linear(16,16)
+        self.line2 = nn.Linear(16,32)
         self.relu2 = nn.ReLU()
-        self.output = nn.Linear(16,4)
+        self.output = nn.Linear(32,4)
+        self.set_df()
     
     def set_df(self):
         # preprocessing
         self.df = self.__make_df()
         self.df = self.__hot_one_encode(columns=['direction'])
         self.__check_and_update_distance()
+        self.__normaliz()
+
+    def forward(self, x):
+        x = self.relu1(self.line1(x))
+        x = self.relu2(self.line2(x))
+        x = self.output(x)
+        return x
     
     def learning_loop(self, model:nn.Module):
-        x, y = self.ــmake_x_y()
+        x, y = self.__make_x_y()
         x = torch.tensor(x, dtype=torch.float32)
         y = torch.tensor(y, dtype=torch.float32)
 
@@ -30,7 +38,7 @@ class Model(nn.Module):
 
         model.train()
 
-        for t in range(2000):
+        for t in range(1000):
             y_pred = model(x) # its mean model.forward(x), in pytorch we can write this model(x)
 
             loss = loss_fn(y_pred, y)
@@ -43,12 +51,17 @@ class Model(nn.Module):
 
             # update weght
             opt.step()
+        model.eval()
 
-    def forward(self, x):
-        x = self.relu1(self.line1(x))
-        x = self.relu2(self.line2(x))
-        x = self.output(x)
-        return x
+    def model_output(self, x, model):
+        with torch.no_grad():
+            x = torch.tensor(x, dtype=torch.float32)
+            output = torch.sigmoid(model(x))
+            output_index = torch.argmax(output)
+            column = ["Down", "Left", "Right", "Up"]
+            return column[output_index]
+
+
 
     # private methods:
 
@@ -73,9 +86,17 @@ class Model(nn.Module):
             current_distance = next_distance
         self.df.reset_index()
 
+    def __normaliz(self):
+        self.df[['head_x' ,'head_y', 'food_x', 'food_y']] /= self.df[['head_x' ,'head_y', 'food_x', 'food_y']].max()
+
     def __make_x_y(self):
         x = self.df[['head_x' ,'head_y', 'food_x', 'food_y']].values.astype('float32')
         y = self.df[['direction_Down',	'direction_Left','direction_Right',	'direction_Up']].values.astype('float32')
         return x, y
 
     
+if __name__ == "__main__":
+    model = Model()
+    model.learning_loop(model)
+    
+
