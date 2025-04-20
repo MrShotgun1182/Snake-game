@@ -8,8 +8,11 @@ import numpy as np
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.line1 = nn.Linear(4, 16)
-        self.line2 = nn.Linear(16, 1)
+        self.line1 = nn.Linear(4,16)
+        self.relu1 = nn.ReLU()
+        self.line2 = nn.Linear(16,16)
+        self.relu2 = nn.ReLU()
+        self.output = nn.Linear(16,4)
     
     def set_df(self):
         # preprocessing
@@ -18,8 +21,9 @@ class Model(nn.Module):
         self.__check_and_update_distance()
     
     def learning_loop(self, model:nn.Module):
-        x = torch.tensor(self.x)
-        y = torch.tensor(self.y)
+        x, y = self.ــmake_x_y()
+        x = torch.tensor(x, dtype=torch.float32)
+        y = torch.tensor(y, dtype=torch.float32)
         loss = nn.MSELoss()
         opt = optim.Adam(model.parameters(), lr=1e-3)
 
@@ -38,8 +42,10 @@ class Model(nn.Module):
             opt.step()
 
     def forward(self, x):
-        x = torch.relu(self.line1(x))
-        x = self.line2(x)
+        x = self.relu1(self.line1(x))
+        x = self.relu2(self.line2(x))
+        x = self.output(x)
+        return x
 
     # private methods:
 
@@ -63,4 +69,10 @@ class Model(nn.Module):
                 self.df = self.df.drop(index=i-1)
             current_distance = next_distance
         self.df.reset_index()
+
+    def ــmake_x_y(self):
+        x = self.df[['head_x' ,'head_y', 'food_x', 'food_y']].values.astype('float32')
+        y = self.df[['direction_Down',	'direction_Left','direction_Right',	'direction_Up']].values.astype('float32')
+        return x, y
+
     
