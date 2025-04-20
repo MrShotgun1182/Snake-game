@@ -75,7 +75,6 @@ class Model(nn.Module):
         return pd.get_dummies(self.df, columns=columns)
     
     def __check_and_update_distance(self):
-        distans = []
         current_distance = 1e+4
         for i in range(1,len(self.df)):
             
@@ -98,5 +97,6 @@ class Model(nn.Module):
 if __name__ == "__main__":
     model = Model()
     model.learning_loop(model)
+    
     
 
