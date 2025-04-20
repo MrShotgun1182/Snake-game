@@ -24,19 +24,22 @@ class Model(nn.Module):
         x, y = self.ــmake_x_y()
         x = torch.tensor(x, dtype=torch.float32)
         y = torch.tensor(y, dtype=torch.float32)
-        loss = nn.MSELoss()
+
+        loss_fn = nn.BCEWithLogitsLoss()
         opt = optim.Adam(model.parameters(), lr=1e-3)
+
+        model.train()
 
         for t in range(2000):
             y_pred = model(x) # its mean model.forward(x), in pytorch we can write this model(x)
 
-            loss_t = loss(y_pred, y)
+            loss = loss_fn(y_pred, y)
             if t % 100 == 99:
-                print(t, loss_t.item())
+                print(t, loss.item())
             
             # backprop
             opt.zero_grad()
-            loss_t.backward()
+            loss.backward()
 
             # update weght
             opt.step()
@@ -70,7 +73,7 @@ class Model(nn.Module):
             current_distance = next_distance
         self.df.reset_index()
 
-    def ــmake_x_y(self):
+    def __make_x_y(self):
         x = self.df[['head_x' ,'head_y', 'food_x', 'food_y']].values.astype('float32')
         y = self.df[['direction_Down',	'direction_Left','direction_Right',	'direction_Up']].values.astype('float32')
         return x, y
