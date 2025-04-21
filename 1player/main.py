@@ -47,11 +47,11 @@ def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: 
 
     snake.new_head(canvas)
 
+    collector.collect(snake=snake, food=food)
+
     status = food_collision(snake, food, wall, canvas, text_score)
     if  not snake_collision(window, snake, wall, collector) and not status:
         snake.delete_tail(canvas)
-    
-    collector.collect(snake=snake, food=food)
 
     # print(new_directionmodel)
     # input()
