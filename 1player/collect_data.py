@@ -11,6 +11,7 @@ class Collector:
             # "body_snake": snake.coordinates[1:],
             "food_x": food.coordinates[0],
             "food_y": food.coordinates[1],
+            "body_len": len(snake.coordinates),
             "direction": snake.snake_direction
         }
         self.rows.append(data)
@@ -25,7 +26,7 @@ class Collector:
             writer = csv.writer(file)
 
             # if not file_exists:
-            writer.writerow(["head_x", "head_y", "food_x", "food_y", "direction"])
+            writer.writerow(["head_x", "head_y", "food_x", "food_y", "body_len", "direction"])
 
             for row in self.rows[:-1]:
                 writer.writerow([
@@ -34,6 +35,7 @@ class Collector:
                     # row["body_snake"],
                     row["food_x"],
                     row["food_y"],
+                    row["body_len"],
                     row["direction"] 
                 ])
 
