@@ -20,13 +20,13 @@ class Collector:
         current_dir = os.path.dirname(os.path.abspath(__file__))
         data_path = os.path.join(current_dir, 'data_set_snake_game.csv')
 
-        # file_exists = os.path.exists(data_path)
+        file_exists = os.path.exists(data_path)
 
         with open(data_path, mode='a', newline='') as file:
             writer = csv.writer(file)
 
-            # if not file_exists:
-            writer.writerow(["head_x", "head_y", "food_x", "food_y", "body_len", "direction"])
+            if not file_exists:
+                writer.writerow(["head_x", "head_y", "food_x", "food_y", "body_len", "direction"])
 
             for row in self.rows[:-1]:
                 writer.writerow([

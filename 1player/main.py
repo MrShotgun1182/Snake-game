@@ -41,9 +41,9 @@ def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: 
     if keys.KEY_QUEUE:
         keys.handel_key(snake)
     
-    model_data = [snake.coordinates[0][0], snake.coordinates[0][1], food.coordinates[0], food.coordinates[1]]
-    new_directionmodel = model.model_output(model_data, model)
-    snake.snake_direction = new_directionmodel
+    # model_data = [snake.coordinates[0][0], snake.coordinates[0][1], food.coordinates[0], food.coordinates[1]]
+    # new_directionmodel = model.model_output(model_data, model)
+    # snake.snake_direction = new_directionmodel
 
     snake.new_head(canvas)
 
@@ -76,9 +76,9 @@ def main():
     wall = Wall()
     keys = Keys(window)
     collector = Collector()
-    model = Model()
-    model.learning_loop(model)
-    # model = 1
+    # model = Model()
+    # model.learning_loop(model)
+    model = 1
 
     wall.near_wall(canvas)
     wall.mid_wall(canvas)

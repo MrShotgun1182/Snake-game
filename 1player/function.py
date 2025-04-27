@@ -8,7 +8,7 @@ import time
 def snake_collision(window: tkinter.Tk, snake: Snake, wall: Wall, collector: Collector):
     if  snake.coordinates[0] in snake.coordinates[1:] or \
         snake.coordinates[0] in wall.coordinates:
-        # collector.save_rows()
+        collector.save_rows()
         close_game(window)
         return True
     
