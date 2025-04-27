@@ -61,6 +61,25 @@ class Model(nn.Module):
             column = ["Down", "Left", "Right", "Up"]
             return column[output_index]
 
+    def calculate_accuracy(self, model):
+        x, y = self.__make_x_y()
+        x = torch.tensor(x, dtype=torch.float32)
+        y = torch.tensor(y, dtype=torch.float32)
+
+        model.eval()
+
+        with torch.no_grad():
+            y_pred = model(x)
+            y_pred_classes = torch.sigmoid(y_pred).round()
+
+            correct_predictions = (y_pred_classes == y).float().sum()
+            total_predictions = y.numel()
+            accuracy = correct_predictions / total_predictions
+
+        print(f"Accuracy: {accuracy.item() * 100:.2f}%")
+        return accuracy.item()
+
+
 
 
     # private methods:
@@ -97,6 +116,7 @@ class Model(nn.Module):
 if __name__ == "__main__":
     model = Model()
     model.learning_loop(model)
+    model.calculate_accuracy(model)
     
     
 
