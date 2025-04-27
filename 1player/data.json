@@ -3,13 +3,13 @@
     {
         "_comment": "The easiest game mode.",
         "_comment2": "The game speed is a number between 1 and 20.",
-        "game_speed": 13
+        "game_speed": 15
     },
     "window": 
     {
         "_comment": "Because of the relation between pixel size and image dimensions, the image dimensions must be a multiple of the pixel size.",
-        "window_width": 800, 
-        "window_height": 600 
+        "window_width": 400, 
+        "window_height": 300 
     },
     "canvas":
     {
