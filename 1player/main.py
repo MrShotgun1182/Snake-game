@@ -37,13 +37,13 @@ def window_setup(window: tkinter.Tk):
     window.geometry(F"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{x}+{y}")
     window.resizable(False, False)
     
-def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas, keys: Keys, collector: Collector, model: Model):
+def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: tkinter.Canvas, keys: Keys, collector: Collector, model):
     if keys.KEY_QUEUE:
         keys.handel_key(snake)
     
-    # model_data = [snake.coordinates[0][0], snake.coordinates[0][1], food.coordinates[0], food.coordinates[1]]
-    # new_directionmodel = model.model_output(model_data, model)
-    # snake.snake_direction = new_directionmodel
+    model_data = [snake.coordinates[0][0], snake.coordinates[0][1], food.coordinates[0], food.coordinates[1]]
+    new_directionmodel = model.model_output(model_data, model)
+    snake.snake_direction = new_directionmodel
 
     snake.new_head(canvas)
 
@@ -51,8 +51,8 @@ def next_turn(window: tkinter.Tk, snake: Snake, food: Food, wall: Wall, canvas: 
 
     status = food_collision(snake, food, wall, canvas, text_score)
     if  not snake_collision(window, snake, wall, collector) and not status:
-        snake.delete_tail(canvas)
-
+        pass
+    snake.delete_tail(canvas)
     # print(new_directionmodel)
     # input()
     
@@ -76,9 +76,9 @@ def main():
     wall = Wall()
     keys = Keys(window)
     collector = Collector()
-    # model = Model()
-    # model.learning_loop(model)
-    model = 1
+    model = Model()
+    model.learning_loop(model)
+    # model = 1
 
     wall.near_wall(canvas)
     wall.mid_wall(canvas)
