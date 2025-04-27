@@ -12,9 +12,7 @@ class Model(nn.Module):
         self.relu1 = nn.ReLU()
         self.line2 = nn.Linear(16,32)
         self.relu2 = nn.ReLU()
-        self.line3 = nn.Linear(32,64)
-        self.relu3 = nn.ReLU()
-        self.output = nn.Linear(64,4)
+        self.output = nn.Linear(32,4)
         self.drop_out = nn.Dropout(0.3)
         self.set_df()
     
@@ -22,7 +20,7 @@ class Model(nn.Module):
         # preprocessing
         self.df = self.__make_df()
         self.df = self.__hot_one_encode(columns=['direction'])
-        # self.__check_and_update_distance()
+        self.__check_and_update_distance()
         self.__add_distance()
         self.__normaliz()
 
@@ -30,8 +28,6 @@ class Model(nn.Module):
         x = self.relu1(self.line1(x))
         x = self.drop_out(x)
         x = self.relu2(self.line2(x))
-        x = self.drop_out(x)
-        x = self.relu3(self.line3(x))
         x = self.output(x)
         return x
     
@@ -45,7 +41,7 @@ class Model(nn.Module):
 
         model.train()
 
-        for t in range(5000):
+        for t in range(1000):
             y_pred = model(x) # its mean model.forward(x), in pytorch we can write this model(x)
 
             loss = loss_fn(y_pred, y)
@@ -105,7 +101,7 @@ class Model(nn.Module):
                 self.df = self.df.drop(index=i)
             before_distance = current_distance
         self.df.reset_index()
-        print(self.df[['direction_Down',	'direction_Left','direction_Right',	'direction_Up']].sum())
+        print(self.df[['direction_Down', 'direction_Left','direction_Right',	'direction_Up']].sum())
         self.df.to_csv("clean.csv")
 
     def __add_distance(self):
@@ -124,12 +120,10 @@ class Model(nn.Module):
             nn.init.xavier_normal_(m.weight)
 
     def test(self):
-        # محاسبه کوارتایل‌ها
         Q1 = self.df.quantile(0.25)
         Q3 = self.df.quantile(0.75)
-        IQR = Q3 - Q1  # محدوده بین چارکی (Interquartile Range)
+        IQR = Q3 - Q1
         
-        # حذف داده‌های پرت
         self.df = self.df[~((self.df < (Q1 - 1.5 * IQR)) | (self.df > (Q3 + 1.5 * IQR))).any(axis=1)]
 
 
@@ -140,6 +134,3 @@ if __name__ == "__main__":
     # print(model.df)
     # model.apply(model.weights_init)
     model.learning_loop(model)
-    
-    
-
