@@ -8,7 +8,7 @@ import numpy as np
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.line1 = nn.Linear(4,16)
+        self.line1 = nn.Linear(6,16)
         self.relu1 = nn.ReLU()
         self.line2 = nn.Linear(16,32)
         self.relu2 = nn.ReLU()
@@ -108,7 +108,11 @@ class Model(nn.Module):
         self.df[['head_x' ,'head_y', 'food_x', 'food_y']] /= self.df[['head_x' ,'head_y', 'food_x', 'food_y']].max()
 
     def __make_x_y(self):
-        x = self.df[['head_x' ,'head_y', 'food_x', 'food_y']].values.astype('float32')
+        # کدگذاری ستون last_direction
+        direction_mapping = {"Down": 0, "Left": 1, "Right": 2, "Up": 3}
+        self.df["last_direction"] = self.df["last_direction"].map(direction_mapping)
+
+        x = self.df[['head_x' ,'head_y', 'food_x', 'food_y', 'distance_to_food', 'last_direction']].values.astype('float32')
         y = self.df[['direction_Down',	'direction_Left','direction_Right',	'direction_Up']].values.astype('float32')
         return x, y
 
